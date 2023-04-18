@@ -1,0 +1,53 @@
+stages:
+  - build
+
+build-backend-code-job:
+  stage: build  
+  only:
+    changes:
+    - backend/*
+  script:
+    - echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
+    - cd backend
+    - mvn package
+  artifacts:
+    paths:
+      - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
+    reports:
+      dotenv: job.env
+
+build-frontend-code-job:
+  stage: build  
+  only:
+    changes:
+    - frontend/*
+  script:
+    - echo BUILD_FRONTEND_JOB_ID = $CI_JOB_ID >> job.env    
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/frontend
+    reports:
+      dotenv: job.env
+
+telegram-notification-backend:
+  stage: .post
+  only:
+    changes:
+    - backend/*
+  script:
+    - 'curl -X POST -H "Content-Type: application/json" -d "{\"chat_id\": \"-1001763459775\", \"text\": \"Юрий Крывиня собрал backend. https://gitlab.praktikum-services.ru/api/v4/projects/$CI_PROJECT_ID/jobs/$BUILD_BACKEND_JOB_ID/artifacts?private_token=${SS_TOKEN}\"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
+  needs:
+    - build-backend-code-job
+
+telegram-notification-frontend:
+  stage: .post
+  only:
+    changes:
+    - frontend/*
+  script:
+    - 'curl -X POST -H "Content-type: application/json" --data "{\"chat_id\": \"-1001763459775\", \"text\": \"Юрий Крывиня собрал frontend. https://gitlab.praktikum-services.ru/api/v4/projects/$CI_PROJECT_ID/jobs/$BUILD_FRONTEND_JOB_ID/artifacts?private_token=${SS_TOKEN}\"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
+  needs:
+    - build-frontend-code-job
