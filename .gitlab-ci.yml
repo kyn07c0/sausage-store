@@ -1,5 +1,9 @@
 stages:
   - build
+  - test
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
 
 build-backend-code-job:
   stage: build  
