@@ -53,7 +53,7 @@ sonarqube-backend-sast:
       -Dsonar.host.url=${SONARQUBE_URL} 
       -Dsonar.login=${SONAR_LOGIN_BACKEND} 
       -Dsonar.qualitygate.wait=true 
-      -Dsonar.projectName=17_YURI_KRYVINYA_BACKEND
+      -Dsonar.projectName=17_YURIKRYVINYA_BACKEND
   needs:
     - build-backend-code-job
 
@@ -68,7 +68,7 @@ sonarqube-frontend-sast:
       -Dsonar.host.url=${SONARQUBE_URL} 
       -Dsonar.login=${SONAR_LOGIN_FRONTEND} 
       -Dsonar.qualitygate.wait=true 
-      -Dsonar.projectName=17_YURI_KRYVINYA_FRONTEND
+      -Dsonar.projectName=17_YURIKRYVINYA_FRONTEND
   needs:
     - build-frontend-code-job
 
