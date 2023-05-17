@@ -25,7 +25,7 @@ build-backend-code-job:
   stage: build  
   only:
     changes:
-    - backend/*
+    - backend/**/*
   script:
     - echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd backend
