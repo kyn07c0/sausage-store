@@ -16,10 +16,10 @@ spotbugs-sast:
     SAST_JAVA_VERSION: 11
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
-cache:
-  paths:
-    - ${CI_PROJECT_DIR}/.m2/repository # для хранения зависимостей бэкенда
-    - .npm/ # для хранения зависимостей сборки фронтенда     
+#cache:
+#  paths:
+#    - ${CI_PROJECT_DIR}/.m2/repository # для хранения зависимостей бэкенда
+#    - .npm/ # для хранения зависимостей сборки фронтенда     
 
 build-backend-code-job:
   stage: build  
