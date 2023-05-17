@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - release
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -10,6 +11,11 @@ spotbugs-sast:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
+
+cache:
+  paths:
+    - ${CI_PROJECT_DIR}/.m2/repository # для хранения зависимостей бэкенда
+    - .npm/ # для хранения зависимостей сборки фронтенда     
 
 build-backend-code-job:
   stage: build  
@@ -71,6 +77,29 @@ sonarqube-frontend-sast:
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_ФРОНТЕНД
   needs:
     - build-frontend-code-job
+
+upload-backend-release:
+  stage: release
+  only:
+    changes:
+      - backend/**/*
+  needs:
+    - build-backend-code-job
+  script:
+    - cd backend
+    - mvn -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
+
+upload-frontend-release:
+  stage: release
+  only:
+    changes:
+    - frontend/**/*
+  needs:
+    - build-frontend-code-job
+  script:
+    - cd frontend/dist
+    - tar czvf sausage-store-${VERSION}.tar.gz frontend
+    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
 
 telegram-notification-backend:
   stage: .post
