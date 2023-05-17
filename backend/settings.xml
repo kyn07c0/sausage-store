@@ -3,8 +3,8 @@
     <servers>
       <server>
         <id>sausage-store</id>
-        <username>${NEXUS_REPO_USER}</username>
-        <password>${NEXUS_REPO_PASS}</password>
+        <username>${env.NEXUS_REPO_USER}</username>
+        <password>${env.NEXUS_REPO_PASS}</password>
       </server>
     </servers>
   </settings>
