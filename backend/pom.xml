@@ -119,8 +119,8 @@
 
     <distributionManagement>
         <repository>
-            <id>sausage-store-kryvinya-yuriy-backend</id>
-            <name>sausage-store-kryvinya-yuriy-backend</name>
+            <id>sausage-store</id>
+            <name>sausage-store</name>
             <url>${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/</url>
         </repository>
     </distributionManagement>
