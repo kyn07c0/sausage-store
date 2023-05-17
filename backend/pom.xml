@@ -117,12 +117,12 @@
         </plugins>
     </build>
 
-</project>
+    <distributionManagement>
+        <repository>
+            <id>sausage-store</id>
+            <name>sausage-store</name>
+            <url>${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/sausage-store/${VERSION}/</url>
+        </repository>
+    </distributionManagement>
 
-<distributionManagement>
-    <repository>
-        <id>sausage-store</id>
-        <name>sausage-store</name>
-        <url>${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/sausage-store/${VERSION}/</url>
-    </repository>
-</distributionManagement>
+</project>
