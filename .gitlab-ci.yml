@@ -7,11 +7,6 @@ stages:
   - test
   - release
 
-cache:
-  paths:
-    - ${CI_PROJECT_DIR}/.m2/repository # для хранения зависимостей бэкенда
-    - .npm/ # для хранения зависимостей сборки фронтенда 
-
 include:
   - template: Security/SAST.gitlab-ci.yml
 
