@@ -107,8 +107,7 @@ upload-frontend-release:
     changes:
     - frontend/**/*
   needs:
-    - spotbugs-sast
-    - sonarqube-frontend-sast
+    - build-frontend-code-job
   script:
     - cd frontend/dist
     - tar czvf ${APP_NAME}-${VERSION}.tar.gz frontend
