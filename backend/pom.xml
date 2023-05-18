@@ -8,7 +8,7 @@
         <version>2.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.yandex.praktikum.devops</groupId>
+    <groupId>com.yandex.prakticum.devops</groupId>
     <artifactId>sausage-store</artifactId>
     <version>${env.VERSION}</version>
     <name>sausage-store</name>
