@@ -94,7 +94,8 @@ upload-backend-release:
     changes:
       - backend/**/*
   needs:
-    - build-backend-code-job
+    - spotbugs-sast
+    - sonarqube-backend-sast
   script:
     - cd backend
     - mvn -X -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
@@ -106,7 +107,8 @@ upload-frontend-release:
     changes:
     - frontend/**/*
   needs:
-    - build-frontend-code-job
+    - spotbugs-sast
+    - sonarqube-frontend-sast
   script:
     - cd frontend/dist
     - tar czvf sausage-store-${VERSION}.tar.gz frontend
