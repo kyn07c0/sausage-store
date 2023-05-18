@@ -70,6 +70,8 @@ sonarqube-backend-sast:
 sonarqube-frontend-sast:
   stage: test
   image: sonarsource/sonar-scanner-cli:latest
+  needs:
+    - build-frontend-code-job
   script:
     - cd frontend
     - sonar-scanner 
@@ -79,8 +81,7 @@ sonarqube-frontend-sast:
       -Dsonar.login=${SONAR_LOGIN_FRONTEND} 
       -Dsonar.qualitygate.wait=true 
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_ФРОНТЕНД
-  needs:
-    - build-frontend-code-job
+  
 
 upload-backend-release:
   stage: release
