@@ -8,10 +8,10 @@
         <version>2.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.yandex.practicum.devops</groupId>
-    <artifactId>sausage-store</artifactId>
+    <groupId>${env.GROUP_ID}</groupId>
+    <artifactId>${env.APP_NAME}</artifactId>
     <version>${env.VERSION}</version>
-    <name>sausage-store</name>
+    <name>${env.APP_NAME}</name>
     <description>Backend for sausage-store</description>
     <properties>
         <java.version>16</java.version>
@@ -119,9 +119,9 @@
 
     <distributionManagement>
         <repository>
-            <id>sausage-store</id>
-            <name>sausage-store</name>
-            <url>${env.NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/</url>
+            <id>${env.APP_NAME}</id>
+            <name>${env.APP_NAME}</name>
+            <url>${env.NEXUS_REPO_URL}/${env.APP_NAME}-kryvinya-yuriy-backend/</url>
         </repository>
     </distributionManagement>
 
