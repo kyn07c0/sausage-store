@@ -95,7 +95,6 @@ upload-backend-release:
   script:
     - cd backend
     - mvn -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
-    - echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
 
 upload-frontend-release:
   stage: release
@@ -109,25 +108,24 @@ upload-frontend-release:
   script:
     - cd frontend/dist
     - tar czvf sausage-store-${VERSION}.tar.gz frontend
-    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-    - echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
+    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
 
-#telegram-notification-backend:
-#  stage: .post
-#  only:
-#    changes:
-#    - backend/*
-#  script:
-#    - 'curl -X POST -H "Content-Type: application/json" -d "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия backend сосисочной - ${VERSION}. Скачать backend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar \"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
-#  needs:
-#    - sonarqube-backend-sast
+telegram-notification-backend:
+  stage: .post
+  only:
+    changes:
+    - backend/**/*
+  script:
+    - 'curl -X POST -H "Content-Type: application/json" -d "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия backend сосисочной - ${VERSION}. Скачать backend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar \"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
+  needs:
+    - upload-backend-release
 
-#telegram-notification-frontend:
-#  stage: .post
-#  only:
-#    changes:
-#    - frontend/*
-#  script:
-#    - 'curl -X POST -H "Content-type: application/json" --data "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия frontend сосисочной - ${VERSION}. Скачать frontend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz.\"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
-#  needs:
-#    - sonarqube-frontend-sast
+telegram-notification-frontend:
+  stage: .post
+  only:
+    changes:
+    - frontend/**/*
+  script:
+    - 'curl -X POST -H "Content-type: application/json" --data "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия frontend сосисочной - ${VERSION}. Скачать frontend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz \"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
+  needs:
+    - upload-frontend-release
