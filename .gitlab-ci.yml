@@ -75,6 +75,9 @@ sonarqube-frontend-sast:
   image: sonarsource/sonar-scanner-cli:latest
   needs:
     - build-frontend-code-job
+  only:
+    changes:
+    - frontend/**/*  
   script:
     - cd frontend
     - sonar-scanner
