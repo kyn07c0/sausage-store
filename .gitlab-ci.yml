@@ -77,7 +77,7 @@ sonarqube-frontend-sast:
     - build-frontend-code-job
   only:
     changes:
-    - frontend/**/*  
+    - frontend/**/*
   script:
     - cd frontend
     - sonar-scanner
@@ -98,7 +98,7 @@ upload-backend-release:
     - sonarqube-backend-sast
   script:
     - cd backend
-    - mvn -X -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
+    - mvn -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
     - echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
 
 upload-frontend-release:
