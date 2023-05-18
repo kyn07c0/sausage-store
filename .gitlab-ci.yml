@@ -88,6 +88,7 @@ upload-backend-release:
     changes:
       - backend/**/*
   needs:
+    - spotbugs-sast
     - sonarqube-backend-sast
   script:
     - cd backend
@@ -100,6 +101,7 @@ upload-frontend-release:
     changes:
     - frontend/**/*
   needs:
+    - spotbugs-sast
     - sonarqube-frontend-sast
   script:
     - cd frontend/dist
