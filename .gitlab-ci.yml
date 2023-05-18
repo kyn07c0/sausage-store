@@ -22,7 +22,7 @@ cache:
     - .npm/ # для хранения зависимостей сборки фронтенда     
 
 build-backend-code-job:
-  stage: build  
+  stage: build
   only:
     changes:
     - backend/**/*
@@ -38,7 +38,7 @@ build-backend-code-job:
       dotenv: job.env  
 
 build-frontend-code-job:
-  stage: build  
+  stage: build
   only:
     changes:
     - frontend/**/*
