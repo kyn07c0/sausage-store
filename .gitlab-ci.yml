@@ -32,7 +32,7 @@ build-backend-code-job:
     - mvn package -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -Dversion.application=${VERSION}
   artifacts:
     paths:
-      - backend/target/${APP_NAME}-${VERSION}.jar
+      - backend/target/sausage-store-${VERSION}.jar
       - ${CI_PROJECT_DIR}/.m2/
     reports:
       dotenv: job.env
@@ -99,7 +99,7 @@ upload-backend-release:
   script:
     - cd backend
     - mvn -X -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
-    - echo ${NEXUS_REPO_URL}/${APP_NAME}-kryvinya-yuriy-backend/${GROUP_ID}/${APP_NAME}/${VERSION}/${APP_NAME}-${VERSION}.jar
+    - echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/${GROUP_ID}/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
 
 upload-frontend-release:
   stage: release
@@ -110,9 +110,9 @@ upload-frontend-release:
     - build-frontend-code-job
   script:
     - cd frontend/dist
-    - tar czvf ${APP_NAME}-${VERSION}.tar.gz frontend
-    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file ${APP_NAME}-${VERSION}.tar.gz ${NEXUS_REPO_URL}/${APP_NAME}-kryvinya-yuriy-frontend/${GROUP_ID}/${APP_NAME}/${VERSION}/${APP_NAME}-${VERSION}.tar.gz
-    - echo ${NEXUS_REPO_URL}/${APP_NAME}-kryvinya-yuriy-frontend/${GROUP_ID}/${APP_NAME}/${VERSION}/${APP_NAME}-${VERSION}.tar.gz
+    - tar czvf sausage-store-${VERSION}.tar.gz frontend
+    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/${GROUP_ID}/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
+    - echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/${GROUP_ID}/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
 
 #telegram-notification-backend:
 #  stage: .post
