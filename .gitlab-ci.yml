@@ -100,7 +100,7 @@ upload-frontend-release:
     changes:
     - frontend/**/*
   needs:
-    - build-frontend-code-job
+    - sonarqube-frontend-sast
   script:
     - cd frontend/dist
     - tar czvf ${APP_NAME}-${VERSION}.tar.gz frontend
