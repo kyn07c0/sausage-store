@@ -16,11 +16,6 @@ spotbugs-sast:
     SAST_JAVA_VERSION: 11
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
-#cache:
-#  paths:
-#    - ${CI_PROJECT_DIR}/.m2/repository # для хранения зависимостей бэкенда
-#    - .npm/ # для хранения зависимостей сборки фронтенда
-
 build-backend-code-job:
   stage: build
   only:
@@ -111,9 +106,9 @@ upload-frontend-release:
     - sonarqube-frontend-sast
   script:
     - cd frontend/dist
-    - tar czvf sausage-store-${VERSION}.tar.gz frontend
-    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-    - echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
+    #- tar czvf sausage-store-${VERSION}.tar.gz frontend
+    #- curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
+    #- echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/praktikum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
 
 #telegram-notification-backend:
 #  stage: .post
