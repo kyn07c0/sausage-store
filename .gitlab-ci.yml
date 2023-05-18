@@ -104,8 +104,7 @@ upload-frontend-release:
     - cd frontend/dist
     - tar czvf sausage-store-${VERSION}.tar.gz frontend
     - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-
-- echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
+    - echo ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
 
 #telegram-notification-backend:
 #  stage: .post
