@@ -110,7 +110,7 @@ upload-frontend-release:
     - spotbugs-sast
     - sonarqube-frontend-sast
   script:
-    - cd frontend
+    - cd frontend/dist
     - tar czvf ${APP_NAME}-${VERSION}.tar.gz frontend
     - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file ${APP_NAME}-${VERSION}.tar.gz ${NEXUS_REPO_URL}/${APP_NAME}-kryvinya-yuriy-frontend/${GROUP_ID}/${APP_NAME}/${VERSION}/${APP_NAME}-${VERSION}.tar.gz
     - echo ${NEXUS_REPO_URL}/${APP_NAME}-kryvinya-yuriy-frontend/${GROUP_ID}/${APP_NAME}/${VERSION}/${APP_NAME}-${VERSION}.tar.gz
