@@ -99,7 +99,7 @@ upload-backend-release:
   script:
     - cd backend
     - mvn -X -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
-    - echo ${NEXUS_REPO_URL}/${APP_NAME}-kryvinya-yuriy-backend/${GROUP_ID}/${APP_NAME}/${VERSION}/${APP_NAME}-${VERSION}.tar.gz
+    - echo ${NEXUS_REPO_URL}/${APP_NAME}-kryvinya-yuriy-backend/${GROUP_ID}/${APP_NAME}/${VERSION}/${APP_NAME}-${VERSION}.jar
 
 upload-frontend-release:
   stage: release
