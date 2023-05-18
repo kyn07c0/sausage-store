@@ -19,7 +19,7 @@ spotbugs-sast:
 cache:
   paths:
     - ${CI_PROJECT_DIR}/.m2/repository # для хранения зависимостей бэкенда
-    - .npm/ # для хранения зависимостей сборки фронтенда     
+    - .npm/ # для хранения зависимостей сборки фронтенда
 
 build-backend-code-job:
   stage: build
@@ -33,9 +33,9 @@ build-backend-code-job:
   artifacts:
     paths:
       - backend/target/${APP_NAME}-${VERSION}.jar
-      - ${CI_PROJECT_DIR}/.m2/ 
+      - ${CI_PROJECT_DIR}/.m2/
     reports:
-      dotenv: job.env  
+      dotenv: job.env
 
 build-frontend-code-job:
   stage: build
@@ -43,7 +43,7 @@ build-frontend-code-job:
     changes:
     - frontend/**/*
   script:
-    - echo BUILD_FRONTEND_JOB_ID = $CI_JOB_ID >> job.env    
+    - echo BUILD_FRONTEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd frontend
     - npm install
     - npm run build
@@ -56,6 +56,8 @@ build-frontend-code-job:
 sonarqube-backend-sast:
   stage: test
   image: maven:3.8-openjdk-16
+  needs:
+    - build-backend-code-job
   script:
     - cd backend
     - mvn verify sonar:sonar
@@ -64,9 +66,7 @@ sonarqube-backend-sast:
       -Dsonar.login=${SONAR_LOGIN_BACKEND}
       -Dsonar.qualitygate.wait=true
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД
-  needs:
-    - build-backend-code-job
-
+  
 sonarqube-frontend-sast:
   stage: test
   image: sonarsource/sonar-scanner-cli:latest
@@ -74,15 +74,14 @@ sonarqube-frontend-sast:
     - build-frontend-code-job
   script:
     - cd frontend
-    - sonar-scanner 
-      -Dsonar.projectKey=${SONAR_PROJECT_FRONTEND_KEY} 
-      -Dsonar.sources=. 
-      -Dsonar.host.url=${SONARQUBE_URL} 
-      -Dsonar.login=${SONAR_LOGIN_FRONTEND} 
-      -Dsonar.qualitygate.wait=true 
+    - sonar-scanner
+      -Dsonar.projectKey=${SONAR_PROJECT_FRONTEND_KEY}
+      -Dsonar.sources=.
+      -Dsonar.host.url=${SONARQUBE_URL}
+      -Dsonar.login=${SONAR_LOGIN_FRONTEND}
+      -Dsonar.qualitygate.wait=true
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_ФРОНТЕНД
   
-
 upload-backend-release:
   stage: release
   only:
@@ -93,7 +92,7 @@ upload-backend-release:
     - sonarqube-backend-sast
   script:
     - cd backend
-    - mvn -X -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
+    - mvn -X -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
     - echo ${NEXUS_REPO_URL}/${APP_NAME}-kryvinya-yuriy-backend/${GROUP_ID}/${APP_NAME}/${VERSION}/${APP_NAME}-${VERSION}.tar.gz
 
 upload-frontend-release:
