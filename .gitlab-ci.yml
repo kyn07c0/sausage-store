@@ -89,7 +89,7 @@ upload-backend-release:
     changes:
       - backend/**/*
   needs:
-    - build-frontend-code-job
+    - build-backend-code-job
     - spotbugs-sast
     - sonarqube-backend-sast
   script:
