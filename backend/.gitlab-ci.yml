@@ -14,7 +14,7 @@ spotbugs-sast:
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository   
+    MAVEN_REPO_PATH: ${MAVEN_REPO_PATH}
 
 stages:
    - build
@@ -30,7 +30,7 @@ build:
   script:
     - echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd backend
-    - mvn package -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -Dversion.application=${VERSION}
+    - mvn package -Dmaven.repo.local=${MAVEN_REPO_PATH} -Dversion.application=${VERSION}
   artifacts:
     paths:
       - backend/target/sausage-store-${VERSION}.jar
@@ -66,7 +66,7 @@ release:
       - sonarqube-sast     
     script:
       - cd backend
-      - mvn -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
+      - mvn -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
    
 telegram-notification:
   stage: notify
