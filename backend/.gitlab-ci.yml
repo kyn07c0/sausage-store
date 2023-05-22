@@ -70,13 +70,13 @@ release:
   only:
     changes:
       - backend/**/*
-    needs:
-      - build
-      - spotbugs-sast
-      - sonarqube-sast     
-    script:
-      - cd backend
-      - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
+  needs:
+    - build
+    - spotbugs-sast
+    - sonarqube-sast     
+  script:
+    - cd backend
+    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
 
 deploy:
   stage: deploy
