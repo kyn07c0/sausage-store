@@ -87,6 +87,8 @@ deploy:
   stage: deploy
   script:
      #выполняем простую команду для проверки
+     - echo ${DEV_USER}
+     - echo ${DEV_HOST}
      - ssh ${DEV_USER}@${DEV_HOST} "id" 
 
 #telegram-notification:
