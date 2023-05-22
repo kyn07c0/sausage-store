@@ -9,9 +9,9 @@
 #  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
 #  - chmod 644 ~/.ssh/known_hosts
 
-cache:
-  paths:
-    - ${CI_PROJECT_DIR}/.m2/repository
+#cache:
+#  paths:
+#    - ${CI_PROJECT_DIR}/.m2/repository
 
 variables:
    VERSION: 1.0.${CI_PIPELINE_ID}
