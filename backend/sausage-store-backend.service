@@ -1,5 +1,5 @@
 [Unit]
-Description=Sausage-store
+Description=sausage-store-backend
 
 [Service]
 User=jarservice
