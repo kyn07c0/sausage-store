@@ -1,8 +1,6 @@
 before_script:
-  #устанавливаем ssh-agent для удобства аутентификации по ssh
   - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
   - eval $(ssh-agent -s)
-  #сохраняем сгенеренный ранее приватный ключ для раннера
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p ~/.ssh
   - chmod 600 ~/.ssh
@@ -24,10 +22,9 @@ spotbugs-sast:
     MAVEN_REPO_PATH: ${MAVEN_REPO_PATH}
 
 stages:
-   - build
-   - test
-   - release
-#   - notify
+  - build
+  - test
+  - release
   - deploy
    
 build:
@@ -71,7 +68,7 @@ release:
   needs:
     - build
     - spotbugs-sast
-    - sonarqube-sast     
+    - sonarqube-sast
   script:
     - cd backend
     - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
