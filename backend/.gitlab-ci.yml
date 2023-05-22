@@ -56,29 +56,29 @@ sonarqube-sast:
       -Dsonar.qualitygate.wait=true
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД      
 
-release:
-  stage: release
-  only:
-    changes:
-      - backend/**/*
-    needs:
-      - build
-      - spotbugs-sast
-      - sonarqube-sast     
-    script:
-      - cd backend
-      - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
-   rules:
-      - changes:
-           - backend/**/* 
+#release:
+#  stage: release
+#  only:
+#    changes:
+#      - backend/**/*
+#    needs:
+#      - build
+#      - spotbugs-sast
+#      - sonarqube-sast     
+#    script:
+#      - cd backend
+#      - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
+#   rules:
+#      - changes:
+#           - backend/**/* 
 
 deploy:
   stage: deploy
   only:
     changes:
       - backend/**/*
-    needs:
-      - release
+#    needs:
+#      - release
   script:
     - scp ./backend/sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service
     - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}";export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}";setsid /bin/bash -s " < ./backend/deploy.sh 
