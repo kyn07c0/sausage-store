@@ -62,7 +62,7 @@ release:
   needs:
     - build
     - spotbugs-sast
-    - sonarqube-frontend-sast
+    - sonarqube-sast
   script:
     - cd frontend/dist
     - tar czvf sausage-store-${VERSION}.tar.gz frontend
