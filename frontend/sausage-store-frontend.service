@@ -1,0 +1,14 @@
+[Unit]
+Description=sausage-store-frontend
+
+[Service]
+User=front-user
+StandardOutput=append:/logs/out-front.log
+StandardError=append:/logs/out-front.log
+WorkingDirectory=/var/www-data
+ExecStart=http-server ./dist/frontend/ -p 443 --proxy http://localhost:8080
+Restart=on-failure
+SyslogIdentifier=sausage-store-frontend
+
+[Install]
+WantedBy=multi-user.target
