@@ -15,12 +15,6 @@ variables:
 include:
   - template: Security/SAST.gitlab-ci.yml
 
-spotbugs-sast:
-  variables:
-    COMPILE: "false"
-    SAST_JAVA_VERSION: 11
-    #MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
-
 stages:
   - build
   - test
@@ -58,7 +52,13 @@ sonarqube-sast:
       -Dsonar.host.url=${SONARQUBE_URL}
       -Dsonar.login=${SONAR_LOGIN_BACKEND}
       -Dsonar.qualitygate.wait=true
-      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД      
+      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
+
+spotbugs-sast:
+  variables:
+    COMPILE: "false"
+    SAST_JAVA_VERSION: 11
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository       
 
 release:
   stage: release
