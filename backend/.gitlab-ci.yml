@@ -1,11 +1,11 @@
-before_script:
-  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - mkdir -p ~/.ssh
-  - chmod 600 ~/.ssh
-  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
+#before_script:
+#  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+#  - eval $(ssh-agent -s)
+#  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#  - mkdir -p ~/.ssh
+#  - chmod 600 ~/.ssh
+#  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+#  - chmod 644 ~/.ssh/known_hosts
 
 variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
@@ -52,14 +52,10 @@ sonarqube-sast:
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
 spotbugs-sast:
-  dependencies:
-    - build
   variables:
-    MAVEN_REPO_PATH: $CI_PROJECT_DIR/.m2
     COMPILE: "false"
-  artifacts:
-    reports:
-      sast: gl-sast-report.json
+    SAST_JAVA_VERSION: 11
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
 release:
   stage: release
