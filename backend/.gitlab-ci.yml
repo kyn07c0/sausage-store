@@ -55,10 +55,15 @@ sonarqube-sast:
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
 spotbugs-sast:
+  dependencies:
+    - build
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository       
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository    
+  artifacts:
+    reports:
+      sast: gl-sast-report.json     
 
 release:
   stage: release
