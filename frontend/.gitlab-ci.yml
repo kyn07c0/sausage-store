@@ -24,15 +24,12 @@ build:
     changes:
     - frontend/**/*
   script:
-    - echo BUILD_FRONTEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd frontend
     - npm install
     - npm run build
   artifacts:
     paths:
       - frontend/dist/frontend
-    reports:
-      dotenv: job.env
 
 sonarqube-sast:
   stage: test
