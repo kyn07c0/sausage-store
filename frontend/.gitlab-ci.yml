@@ -30,7 +30,7 @@ build:
   stage: build
   only:
     changes:
-    - frontend/**/*
+    - frontend/*
   script:
     - echo BUILD_FRONTEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd frontend
