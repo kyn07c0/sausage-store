@@ -62,8 +62,12 @@ spotbugs-sast:
     SAST_JAVA_VERSION: 11
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository    
   artifacts:
+    name: sast
+    paths:
+     - gl-sast-report.json
     reports:
-      sast: gl-sast-report.json     
+      sast: gl-sast-report.json
+    when: always     
 
 release:
   stage: release
