@@ -20,7 +20,7 @@ build:
     - backend/**/*
   script:
     - cd backend
-    - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=./.m2/repository
+    - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
   artifacts:
     paths:
       - backend/target/sausage-store-${VERSION}.jar
@@ -47,7 +47,7 @@ spotbugs-sast:
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
+    MAVEN_REPO_PATH: ${MAVEN_REPO_PATH}
 
 release:
   stage: release
@@ -79,6 +79,7 @@ deploy:
       - backend/**/*
   needs:
     - release
+  when: manual  
   script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
