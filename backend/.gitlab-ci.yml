@@ -32,7 +32,7 @@ build:
   artifacts:
     paths:
       - backend/target/sausage-store-${VERSION}.jar
-      - ${CI_PROJECT_DIR}/.m2/repository/
+      - ${CI_PROJECT_DIR}/.m2/
 
 sonarqube-sast:
   stage: test
@@ -55,7 +55,7 @@ spotbugs-sast:
   dependencies:
     - build
   variables:
-    MAVEN_REPO_PATH: $CI_PROJECT_DIR/.m2/repository
+    MAVEN_REPO_PATH: $CI_PROJECT_DIR/.m2
     COMPILE: "false"
   artifacts:
     reports:
