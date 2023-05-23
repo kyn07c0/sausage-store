@@ -54,11 +54,11 @@ sonarqube-sast:
       -Dsonar.qualitygate.wait=true
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
-spotbugs-sast:
-  variables:
-    COMPILE: "false"
-    SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${MAVEN_REPO_PATH}   
+#spotbugs-sast:
+#  variables:
+#    COMPILE: "false"
+#    SAST_JAVA_VERSION: 11
+#    MAVEN_REPO_PATH: ${MAVEN_REPO_PATH}   
 
 release:
   stage: release
