@@ -27,15 +27,17 @@ build:
     changes:
     - backend/**/*
   script:
-    - echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
+    #- echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd backend
-    - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
+    - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=./.m2/repository
   artifacts:
     paths:
-      - backend/target/sausage-store-${VERSION}.jar
-      - ${CI_PROJECT_DIR}/.m2/
-    reports:
-      dotenv: job.env
+      - .m2/
+      - target/
+      #- backend/target/sausage-store-${VERSION}.jar
+      #- ${CI_PROJECT_DIR}/.m2/
+    #reports:
+    #  dotenv: job.env
 
 sonarqube-sast:
   stage: test
@@ -54,11 +56,15 @@ sonarqube-sast:
       -Dsonar.qualitygate.wait=true
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
-#spotbugs-sast:
-#  variables:
-#    COMPILE: "false"
-#    SAST_JAVA_VERSION: 11
-#    MAVEN_REPO_PATH: ${MAVEN_REPO_PATH}   
+spotbugs-sast:
+  dependencies:
+    - build
+  variables:
+    MAVEN_REPO_PATH: $CI_PROJECT_DIR/.m2/repository
+    COMPILE: "false"
+  artifacts:
+    reports:
+      sast: gl-sast-report.json
 
 release:
   stage: release
