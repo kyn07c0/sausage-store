@@ -30,12 +30,12 @@ build:
     #- echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd backend
     - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
-  #artifacts:
-  #  paths:
-  #    - backend/target/sausage-store-${VERSION}.jar
-  #    - ${CI_PROJECT_DIR}/.m2/
-  #  reports:
-  #    dotenv: job.env
+  artifacts:
+    paths:
+      - backend/target/sausage-store-${VERSION}.jar
+      - ${CI_PROJECT_DIR}/.m2/
+    reports:
+      dotenv: job.env
 
 sonarqube-sast:
   stage: test
@@ -60,14 +60,7 @@ spotbugs-sast:
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository    
-  artifacts:
-    name: sast
-    paths:
-     - gl-sast-report.json
-    reports:
-      sast: gl-sast-report.json
-    when: always     
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository     
 
 release:
   stage: release
