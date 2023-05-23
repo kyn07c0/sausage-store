@@ -11,6 +11,15 @@ variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
   MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+spotbugs-sast:
+  variables:
+    COMPILE: "false"
+    SAST_JAVA_VERSION: 11
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository    
+
 stages:
   - build
   - test
@@ -33,15 +42,6 @@ build:
     reports:
       dotenv: job.env
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
-
-spotbugs-sast:
-  variables:
-    COMPILE: "false"
-    SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository  
-
 sonarqube-sast:
   stage: test
   image: sonarsource/sonar-scanner-cli:latest
@@ -49,7 +49,7 @@ sonarqube-sast:
     - build
   only:
     changes:
-    - frontend/**/*
+    - frontend/*
   script:
     - cd frontend
     - sonar-scanner
