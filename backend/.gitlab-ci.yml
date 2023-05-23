@@ -7,6 +7,10 @@ before_script:
   - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
 
+cache:
+  paths:
+    - ${CI_PROJECT_DIR}/.m2/repository
+
 variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
   MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
@@ -19,7 +23,7 @@ spotbugs-sast:
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: backend
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
 stages:
   - build
