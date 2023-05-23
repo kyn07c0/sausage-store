@@ -7,10 +7,6 @@ before_script:
   - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
 
-cache:
-  paths:
-    - ${CI_PROJECT_DIR}/.m2/repository
-
 variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
   MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
@@ -37,15 +33,15 @@ build:
     changes:
     - backend/**/*
   script:
-    - echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
+    #- echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd backend
-    - mvn package -Dmaven.repo.local=${MAVEN_REPO_PATH} -Dversion.application=${VERSION}
-  artifacts:
-    paths:
-      - backend/target/sausage-store-${VERSION}.jar
-      - ${CI_PROJECT_DIR}/.m2/
-    reports:
-      dotenv: job.env
+    - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
+  #artifacts:
+  #  paths:
+  #    - backend/target/sausage-store-${VERSION}.jar
+  #    - ${CI_PROJECT_DIR}/.m2/
+  #  reports:
+  #    dotenv: job.env
 
 sonarqube-sast:
   stage: test
