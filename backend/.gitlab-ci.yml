@@ -27,17 +27,12 @@ build:
     changes:
     - backend/**/*
   script:
-    #- echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd backend
     - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=./.m2/repository
   artifacts:
     paths:
-      - .m2/
-      - target/
-      #- backend/target/sausage-store-${VERSION}.jar
-      #- ${CI_PROJECT_DIR}/.m2/
-    #reports:
-    #  dotenv: job.env
+      - backend/target/sausage-store-${VERSION}.jar
+      - ${CI_PROJECT_DIR}/.m2/repository/
 
 sonarqube-sast:
   stage: test
