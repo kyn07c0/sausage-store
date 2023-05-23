@@ -3,13 +3,7 @@ variables:
   MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
 include:
-  - template: Security/SAST.gitlab-ci.yml
-
-spotbugs-sast:
-  variables:
-    COMPILE: "false"
-    SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository    
+  - template: Security/SAST.gitlab-ci.yml 
 
 stages:
   - build
@@ -24,12 +18,15 @@ build:
     changes:
     - frontend/**/*
   script:
+    - echo BUILD_FRONTEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd frontend
     - npm install
     - npm run build
   artifacts:
     paths:
       - frontend/dist/frontend
+    reports:
+      dotenv: job.env  
 
 sonarqube-sast:
   stage: test
@@ -48,6 +45,12 @@ sonarqube-sast:
       -Dsonar.login=${SONAR_LOGIN_FRONTEND}
       -Dsonar.qualitygate.wait=true
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_ФРОНТЕНД
+
+spotbugs-sast:
+  variables:
+    COMPILE: "false"
+    SAST_JAVA_VERSION: 11
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository         
 
 release:
   stage: release
