@@ -27,7 +27,7 @@ build:
     changes:
     - backend/**/*
   script:
-    #- echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
+    - echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
     - cd backend
     - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
   artifacts:
@@ -55,12 +55,10 @@ sonarqube-sast:
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
 spotbugs-sast:
-  dependencies:
-    - build
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository     
+    MAVEN_REPO_PATH: ${MAVEN_REPO_PATH}   
 
 release:
   stage: release
