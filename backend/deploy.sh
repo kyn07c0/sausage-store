@@ -6,8 +6,8 @@ sudo cp -rf sausage-store-backend.service /etc/systemd/system/sausage-store-back
 
 curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store.jar ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
 
-sudo rm -f /var/jarservice/sausage-store.jar||true
-sudo cp ./sausage-store.jar /var/jarservice/sausage-store.jar||true
+rm -f /var/jarservice/sausage-store.jar||true
+cp ./sausage-store.jar /var/jarservice/sausage-store.jar||true
 
 sudo systemctl daemon-reload
 sudo systemctl restart sausage-store-backend
