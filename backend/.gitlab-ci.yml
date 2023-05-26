@@ -78,7 +78,7 @@ telegram-notification:
 deploy:
   stage: deploy
   environment:
-    name: backend_environment
+    name: backend_env
   only:
     changes:
       - backend/**/*
