@@ -11,5 +11,3 @@ sudo install -o ${BACKEND_USER} ./sausage-store.jar /var/jarservice/sausage-stor
 
 sudo systemctl daemon-reload
 sudo systemctl restart sausage-store-backend
-
-
