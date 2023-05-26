@@ -79,6 +79,8 @@ telegram-notification:
 
 deploy:
   stage: deploy
+  environment:
+    name: frontend_env
   only:
     changes:
       - frontend/**/*
