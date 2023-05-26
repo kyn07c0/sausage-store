@@ -1,131 +1,22 @@
-variables:
-  VERSION: 1.0.${CI_PIPELINE_ID}
-  MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
-
 stages:
-  - build
-  - test
-  - release
+  - module-pipelines
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
+frontend:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/frontend/.gitlab-ci.yml"
+    strategy: depend # depend нужен, если какой-нибудь дочерний пайплайн свалился, мы знали, что общий пайплайн тоже идёт с ошибкой
+  only:
+    changes: # как только происходит изменение в папке frontend, запускается дочерний пайплайн, который лежит в этой папке
+     - frontend/**/*
 
-spotbugs-sast:
-  variables:
-    COMPILE: "false"
-    SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
-
-build-backend-code-job:
-  stage: build
+backend:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/backend/.gitlab-ci.yml"
+    strategy: depend
   only:
-    changes:
-    - backend/**/*
-  script:
-    - echo BUILD_BACKEND_JOB_ID = $CI_JOB_ID >> job.env
-    - cd backend
-    - mvn package -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -Dversion.application=${VERSION}
-  artifacts:
-    paths:
-      - backend/target/sausage-store-${VERSION}.jar
-      - ${CI_PROJECT_DIR}/.m2/
-    reports:
-      dotenv: job.env
-
-build-frontend-code-job:
-  stage: build
-  only:
-    changes:
-    - frontend/**/*
-  script:
-    - echo BUILD_FRONTEND_JOB_ID = $CI_JOB_ID >> job.env
-    - cd frontend
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - frontend/dist/frontend
-    reports:
-      dotenv: job.env
-
-sonarqube-backend-sast:
-  stage: test
-  image: maven:3.8-openjdk-16
-  needs:
-    - build-backend-code-job
-  only:
-    changes:
-    - backend/**/*  
-  script:
-    - cd backend
-    - mvn verify sonar:sonar
-      -Dsonar.projectKey=${SONAR_PROJECT_BACKEND_KEY}
-      -Dsonar.host.url=${SONARQUBE_URL}
-      -Dsonar.login=${SONAR_LOGIN_BACKEND}
-      -Dsonar.qualitygate.wait=true
-      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД
-  
-sonarqube-frontend-sast:
-  stage: test
-  image: sonarsource/sonar-scanner-cli:latest
-  needs:
-    - build-frontend-code-job
-  only:
-    changes:
-    - frontend/**/*
-  script:
-    - cd frontend
-    - sonar-scanner
-      -Dsonar.projectKey=${SONAR_PROJECT_FRONTEND_KEY}
-      -Dsonar.sources=.
-      -Dsonar.host.url=${SONARQUBE_URL}
-      -Dsonar.login=${SONAR_LOGIN_FRONTEND}
-      -Dsonar.qualitygate.wait=true
-      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_ФРОНТЕНД
-  
-upload-backend-release:
-  stage: release
-  only:
-    changes:
+    changes:  # как только происходит изменение в папке backend, запускается дочерний пайплайн, который лежит в этой папке
       - backend/**/*
-  needs:
-    - build-backend-code-job
-    - spotbugs-sast
-    - sonarqube-backend-sast
-  script:
-    - cd backend
-    - mvn -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
-
-upload-frontend-release:
-  stage: release
-  only:
-    changes:
-    - frontend/**/*
-  needs:
-    - build-frontend-code-job
-    - spotbugs-sast
-    - sonarqube-frontend-sast
-  script:
-    - cd frontend/dist
-    - tar czvf sausage-store-${VERSION}.tar.gz frontend
-    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-
-telegram-notification-backend:
-  stage: .post
-  only:
-    changes:
-    - backend/**/*
-  script:
-    - 'curl -X POST -H "Content-Type: application/json" -d "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия backend сосисочной - ${VERSION}. Скачать backend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar \"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
-  needs:
-    - upload-backend-release
-
-telegram-notification-frontend:
-  stage: .post
-  only:
-    changes:
-    - frontend/**/*
-  script:
-    - 'curl -X POST -H "Content-type: application/json" --data "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия frontend сосисочной - ${VERSION}. Скачать frontend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz \"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
-  needs:
-    - upload-frontend-release
