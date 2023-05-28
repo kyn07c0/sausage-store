@@ -77,6 +77,9 @@ telegram-notification:
 
 deploy:
   stage: deploy
+  environment:
+    name: backend_env
+    url: http://std-017-06.praktikum-services.tech:443
   only:
     changes:
       - backend/**/*
