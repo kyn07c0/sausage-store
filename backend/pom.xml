@@ -128,6 +128,7 @@
                 <user>std-017-006</user>
                 <password>Testusr1234</password>
                 <url>jdbc:postgresql://rc1b-3csxm1wq40hdemwq.mdb.yandexcloud.net:6432/std-017-006</url>
+                <baseDir>src/main/resources</baseDir>
                 <locations>
                     <location>classpath:db/migration</location>
                 </locations>
