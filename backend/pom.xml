@@ -30,11 +30,6 @@
             <version>42.5.4</version>
         </dependency>
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>8.0.5</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
@@ -80,7 +75,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -95,6 +89,11 @@
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>8.0.5</version>
         </dependency>
     </dependencies>
 
@@ -129,9 +128,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>8.0.5</version>
                 <configuration>
-                    <user>std-017-006</user>
-                    <password>Testusr1234</password>
-                    <url>jdbc:postgresql://rc1b-3csxm1wq40hdemwq.mdb.yandexcloud.net:6432/std-017-006</url>
+                    <user>${env.PG_USER}</user>
+                    <password>${env.PG_PASS}</password>
+                    <url>jdbc:postgresql://${env.PG_URL}:${env.PG_PORT}/${env.PG_DATABASE}</url>
                     <baseDir>src/main/resources</baseDir>
                     <locations>
                         <location>classpath:db/migration</location>
