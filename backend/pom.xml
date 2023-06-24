@@ -130,7 +130,7 @@
                 <configuration>
                     <user>${env.PG_USER}</user>
                     <password>Testusr1234</password>
-                    <url>jdbc:postgresql://${env.PG_URL}:${env.PG_PORT}/${env.PG_DATABASE}</url>
+                    <url>jdbc:postgresql://rc1b-3csxm1wq40hdemwq.mdb.yandexcloud.net:${env.PG_PORT}/${env.PG_DATABASE}</url>
                     <baseDir>src/main/resources</baseDir>
                     <locations>
                         <location>classpath:db/migration</location>
