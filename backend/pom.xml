@@ -128,9 +128,6 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>8.0.5</version>
                 <configuration>
-                    <user>${env.PG_USER}</user>
-                    <password>${env.PG_PASS}</password>
-                    <url>jdbc:postgresql://${env.PG_URL}:${env.PG_PORT}/${env.PG_DATABASE}</url>
                     <locations>
                         <location>classpath:db/migration</location>
                     </locations>
