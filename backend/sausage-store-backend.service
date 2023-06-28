@@ -12,7 +12,7 @@ ExecStart=/usr/bin/java \
 -Dmyserver.bindAddr='127.0.0.1' \
 -Dmyserver.bindPort='8080' \
 -Dmyserver.hostName='Sausage-store' \
--jar '/var/jarservice/sausage-store.jar' --spring.datasource.url=jdbc:postgresql://rc1b-3csxm1wq40hdemwq.mdb.yandexcloud.net:6432/std-017-006 --spring.datasource.username=std-017-006 --spring.datasource.password=Testusr1234 --spring.data.mongodb.uri=mongodb://std-017-006:Testusr1234@rc1a-5if40cef34vsmut9.mdb.yandexcloud.net:27018/std-017-006?tls=true
+-jar '/var/jarservice/sausage-store.jar' --spring.datasource.url=jdbc:postgresql://rc1b-3csxm1wq40hdemwq.mdb.yandexcloud.net:6432/std-017-006 --spring.datasource.username=std-017-006 --spring.datasource.password=Testusr1234 --spring.data.mongodb.uri=mongodb://std-017-006:Testusr1234@rc1a-u0nwp06gbwh8qsoq.mdb.yandexcloud.net:27018/std-017-006?tls=true
 SuccessExitStatus=143
 SyslogIdentifier=sausage-store-backend
 
