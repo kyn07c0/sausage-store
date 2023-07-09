@@ -71,6 +71,8 @@ upload-backend-latest:
   variables:
     GIT_STRATEGY: none
   image: docker:20.10.12-dind-rootless
+  needs:
+    - build
   stage: release
   before_script:
     - until docker info; do sleep 1; done
@@ -94,6 +96,8 @@ upload-backend-latest:
 deploy-backend:
   stage: deploy
   image: sausage-backend:latest
+  needs:
+    - build
   # если хотим сделать деплой по кнопке
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
