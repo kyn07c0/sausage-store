@@ -48,11 +48,11 @@ sonarqube-sast:
       -Dsonar.qualitygate.wait=true
       -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
-#spotbugs-sast:
-#  variables:
-#    COMPILE: "false"
-#    SAST_JAVA_VERSION: 11
-#    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
+spotbugs-sast:
+  variables:
+    COMPILE: "false"
+    SAST_JAVA_VERSION: 11
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
 #release:
 #  stage: release
@@ -91,15 +91,17 @@ upload-backend-latest:
 #  needs:
 #    - release
 
-deploy-backend:
+deploy:
   stage: deploy
-  image: sausage-backend:latest
+  image: alpine:3.15.0
+  needs:
+    - upload-backend-latest
   # если хотим сделать деплой по кнопке
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: manual
+  #rules:
+  #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  #    when: manual
+  #  - if: '$CI_COMMIT_BRANCH == "master"'
+  #    when: manual
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
