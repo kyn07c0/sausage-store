@@ -67,7 +67,6 @@ sonarqube-sast:
 #    - cd backend
 #    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
 
-
 upload-backend-latest:
   variables:
     GIT_STRATEGY: none
@@ -82,7 +81,6 @@ upload-backend-latest:
     - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
 
-
 #telegram-notification:
 #  stage: notify
 #  only:
@@ -93,8 +91,7 @@ upload-backend-latest:
 #  needs:
 #    - release
 
-
-deploy:
+deploy-backend:
   stage: deploy
   image: sausage-backend:latest
   # если хотим сделать деплой по кнопке
