@@ -96,7 +96,7 @@ upload-backend-latest:
 
 deploy:
   stage: deploy
-  image: alpine:3.15.0
+  image: sausage-backend:latest
   # если хотим сделать деплой по кнопке
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
