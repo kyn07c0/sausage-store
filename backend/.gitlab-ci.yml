@@ -97,7 +97,7 @@ upload-backend-latest:
 
 deploy:
   stage: deploy
-  image: sausage-backend:latest
+  image: alpine:3.15.0
   needs:
     - upload-backend-latest
   # если хотим сделать деплой по кнопке
