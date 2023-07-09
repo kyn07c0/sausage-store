@@ -99,7 +99,7 @@ deploy:
   stage: deploy
   image: sausage-backend:latest
   needs:
-    - release
+    - upload-backend-latest
   # если хотим сделать деплой по кнопке
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
