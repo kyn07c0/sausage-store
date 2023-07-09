@@ -11,8 +11,8 @@ include:
 stages:
   - build
   - test
-  - release
-  - notify
+ #- release
+ #- notify
   - deploy
    
 build:
@@ -67,6 +67,22 @@ build:
 #    - cd backend
 #    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
 
+
+upload-backend-latest:
+  variables:
+    GIT_STRATEGY: none
+  image: docker:20.10.12-dind-rootless
+  stage: release
+  before_script:
+    - until docker info; do sleep 1; done
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+    # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
+    - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
+
+
 #telegram-notification:
 #  stage: notify
 #  only:
@@ -76,6 +92,9 @@ build:
 #    - 'curl -X POST -H "Content-Type: application/json" -d "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия backend сосисочной - ${VERSION}. Скачать backend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar \"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
 #  needs:
 #    - release
+
+
+
 
 deploy:
   stage: deploy
@@ -101,4 +120,4 @@ deploy:
        export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
        export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
        export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
-      /bin/bash -s " < ./backend/backend_deploy.sh
+      /bin/bash -s " < ./backend/deploy.sh
