@@ -54,19 +54,6 @@ spotbugs-sast:
     SAST_JAVA_VERSION: 11
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
-#release:
-#  stage: release
-#  only:
-#    changes:
-#      - backend/**/*
-#  needs:
-#   - build
-#    - spotbugs-sast
-#    - sonarqube-sast
-#  script:
-#    - cd backend
-#    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
-
 upload-backend-latest:
   variables:
     GIT_STRATEGY: none
