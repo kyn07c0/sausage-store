@@ -8,7 +8,7 @@ RUN npm run build
 
 # release
 FROM node:16-alpine3.16
-WORKDIR /usr/src/app
+WORKDIR /app
 RUN npm install -g http-server
 RUN addgroup -S front-user && adduser -S front-user -G front-user
 COPY packege*.json ./
