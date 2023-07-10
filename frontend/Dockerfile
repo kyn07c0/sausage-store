@@ -10,8 +10,7 @@ RUN npm run build
 FROM node:8
 WORKDIR /app
 RUN addgroup --system front-user \
-    && adduser -S -s /bin/false -G front-user front-user -D -H \ 
-    && apk add --no-cache dumb-init==1.2.5-r0
+    && adduser -S -s /bin/false -G front-user front-user -D -H  
 RUN npm install -g http-server
 COPY --chown=front-user:front-user \ 
      --from=builder /usr/src/app/dist/frontend ./dist/frontend
