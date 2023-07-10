@@ -11,9 +11,7 @@ FROM node:16-alpine3.16
 WORKDIR /app
 RUN npm install -g http-server
 COPY --from=builder /usr/src/app/dist/frontend ./dist/frontend
-RUN addgroup -S front-user \
-    && adduser -S front-user -G front-user -G root \
-    && chown -R front-user:front-user ./dist/frontend/
+RUN addgroup -S front-user && adduser -S front-user -G front-user -G root && chown -R front-user:front-user ./dist/frontend/
 EXPOSE 8010
 USER front-user
 CMD ["http-server", "dist/frontend/", "-p", "8010", "--proxy", "http://sausage-backend:8090"]
