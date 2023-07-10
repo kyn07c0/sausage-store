@@ -11,7 +11,7 @@ FROM node:8
 WORKDIR /app
 RUN addgroup --system front-user \
     && adduser -S -s /bin/false -G front-user front-user -D -H 
-    #&& chown -R front-user:front-user ./dist/frontend/
+    && chown -R front-user:front-user ./dist/frontend/
 RUN npm install -g http-server
 COPY --from=builder /usr/src/app/dist/frontend ./dist/frontend
 EXPOSE 80
