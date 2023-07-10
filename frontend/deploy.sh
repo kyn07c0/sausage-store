@@ -6,8 +6,8 @@ docker pull gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-
 docker stop frontend || true
 docker rm frontend || true
 set -e
-docker run -d --name frontend \	
-    --network=sausage_network \
-    --restart always \
-    --pull always \
-    gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
+docker run -d --name frontend \
+	--network=sausage_network \
+	--restart always \
+	--pull always \
+	gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
