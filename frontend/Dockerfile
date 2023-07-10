@@ -1,5 +1,5 @@
 # build
-FROM node:8 as builder
+FROM node:16 as builder
 WORKDIR /usr/src/app
 COPY package*.json ./
 COPY . .
@@ -7,7 +7,7 @@ RUN npm install
 RUN npm run build
 
 # release
-FROM node:8
+FROM node:16
 WORKDIR /app
 RUN addgroup --system front-user \
     && adduser -S -s /bin/false -G front-user front-user -D -H  
