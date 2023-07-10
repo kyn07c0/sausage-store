@@ -1,15 +1,14 @@
 #! /bin/bash
 
-set -xe
-
-sudo cp -rf sausage-store-frontend.service /etc/systemd/system/sausage-store-frontend.service
-
-curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store.tar.gz ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-
-sudo rm -rf /var/www-data/dist/frontend/*||true
-sudo tar -xf ./sausage-store.tar.gz
-sudo install -o ${FRONTEND_USER} ./frontend/* /var/www-data/dist/frontend/||true
-sudo rm -rf ./frontend
-
-sudo systemctl daemon-reload
-sudo systemctl restart sausage-store-frontend
+docker network create -d bridge sausage_network || true
+docker login gitlab.praktikum-services.ru:5050 -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CIREGISTRY 
+docker pull gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
+docker stop frontend || true
+docker rm frontend || true
+set -e
+docker run -d --name frontend \
+    --network=sausage_network \
+    --restart always \
+    --pull always \
+    --env-file .env \
+    gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
