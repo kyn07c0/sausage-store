@@ -5,8 +5,8 @@ variables:
 
 include:
   - template: Security/SAST.gitlab-ci.yml
-   - project: 'templates/ci'
-     file: 'DockerInDockerTemplate.yml'  
+  - project: 'templates/ci'
+    file: 'DockerInDockerTemplate.yml'  
 
 stages:
   - build
@@ -95,5 +95,4 @@ deploy:
       export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
       export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
       export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
-      /bin/bash -s " < ./frontend/deploy.sh
-                                        
+      /bin/bash -s " < ./frontend/deploy.sh                                      
