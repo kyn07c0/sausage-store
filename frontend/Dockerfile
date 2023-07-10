@@ -10,8 +10,7 @@ RUN npm run build
 FROM node:16
 WORKDIR /app
 RUN npm install -g http-server
-RUN addgroup --system front-user \
-    && adduser -S -s /bin/false -G front-user front-user -D -H  
+RUN addgroup -S front-user && adduser -S front-user -G front-user  
 COPY --chown=front-user:front-user \ 
      --from=builder /usr/src/app/dist/frontend ./dist/frontend
 EXPOSE 80
