@@ -3,7 +3,7 @@ FROM node:8 as builder
 WORKDIR /usr/src/app
 COPY package*.json ./
 COPY . .
-RUN npm install -g npm@9.8.0
+RUN npm install
 RUN npm run build
 
 # release
