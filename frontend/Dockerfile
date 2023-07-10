@@ -12,8 +12,8 @@ WORKDIR /usr/src/app
 RUN npm install -g http-server
 RUN addgroup -S front-user && adduser -S front-user -G front-user
 COPY --chown=front-user:front-user --from=builder /usr/src/app/dist/frontend ./dist/frontend
-EXPOSE 80
+EXPOSE 8080
 USER front-user
-ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://sausage-backend:8080"]
+ENTRYPOINT ["http-server", "dist/frontend/", "-p", "8080", "--proxy", "http://sausage-backend:8090"]
 
 
