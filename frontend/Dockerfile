@@ -3,7 +3,7 @@ FROM node:16-alpine3.16 as builder
 WORKDIR /usr/src/app
 COPY package*.json ./
 COPY . .
-RUN npm ci
+RUN npm install
 RUN npm run build
 
 # release
