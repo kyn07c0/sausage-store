@@ -35,9 +35,6 @@ sonarqube-sast:
   image: sonarsource/sonar-scanner-cli:latest
   needs:
     - build
-  only:
-    changes:
-    - frontend/**/*
   script:
     - cd frontend
     - sonar-scanner
@@ -94,9 +91,9 @@ deploy:
   script:
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
-      #export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
-      #export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
-      #export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
-      #export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
+      export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
+      export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
+      export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
+      export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
       /bin/bash -s " < ./frontend/deploy.sh
                                         
