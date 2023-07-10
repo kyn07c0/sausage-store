@@ -10,6 +10,8 @@ RUN npm run build
 FROM node:16-alpine3.16
 WORKDIR /app
 RUN npm install -g http-server
+COPY package*.json ./
+RUN npm install
 COPY --from=builder /usr/src/app/dist/frontend ./dist/frontend
 RUN addgroup -S front-user && adduser -S front-user -G front-user -G root && chown -R front-user:front-user ./dist/frontend/
 EXPOSE 8010
