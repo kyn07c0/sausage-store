@@ -7,7 +7,7 @@ RUN npm ci
 RUN npm run build
 
 # release
-FROM node:16
+FROM node:16-alpine3.16
 WORKDIR /app
 COPY package*.json ./
 RUN npm install -g http-server
