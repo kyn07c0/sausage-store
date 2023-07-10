@@ -1,21 +1,21 @@
 # build
-FROM node:12 as builder
+FROM node:16 as builder
 WORKDIR /usr/src/app
-COPY *.json ./
-COPY ./src ./src
+COPY package*.json ./
+COPY . .
 RUN npm install
-RUN npm install -g http-server
 RUN npm run build
 
 # release
-FROM node:12 
+FROM node:16
 WORKDIR /app
 RUN addgroup --system front-user \
-    && adduser -S -s /bin/false -G front-user front-user -D -H
+    && adduser -S -s /bin/false -G front-user front-user -D -H 
+    #&& chown -R front-user:front-user ./dist/frontend/
 RUN npm install -g http-server
 COPY --chown=front-user:front-user \ 
      --from=builder /usr/src/app/dist/frontend ./dist/frontend
 EXPOSE 80
-ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://sausage-backend:8080"]
+ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://sausage-backend:8090"]
 
 
