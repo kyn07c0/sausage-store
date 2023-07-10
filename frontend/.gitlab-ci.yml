@@ -74,12 +74,6 @@ deploy:
   image: alpine:3.15.0
   needs:
     - upload-frontend-latest
-  # если хотим сделать деплой по кнопке
-  #rules:
-  #  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  #    when: manual
-  #  - if: $CI_COMMIT_BRANCH == "master"
-  #    when: manual
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
@@ -89,9 +83,6 @@ deploy:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh ${DEV_USER}@${DEV_HOST}
-      
+    - ssh ${DEV_USER}@${DEV_HOST} 
       "export "VERSION=${VERSION}";
-      export "FRONTEND_USER=${FRONTEND_USER}";
-      export "HOST=${HOST}"; 
       /bin/bash -s " < ./frontend/deploy.sh                                      
