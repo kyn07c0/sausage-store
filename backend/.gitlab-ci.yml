@@ -49,11 +49,12 @@ build:
 
 sonarqube-sast:
   stage: test
-  image: sonarsource/sonar-scanner-cli:latest
+  #image: sonarsource/sonar-scanner-cli:latest
   needs: 
     - build
   script:
-    - docker run --rm -e SONAR_HOST_URL=${SONARCUBE_URL} -e SONAR_LOGIN=${SONAR_LOGIN_BACKEND} -v "$CI_REGISTRY_IMAGE/sausage-backend:latest:/usr/src"
+    - docker run --rm -e SONAR_HOST_URL=${SONARCUBE_URL} -e SONAR_LOGIN=${SONAR_LOGIN_BACKEND} -v "$CI_REGISTRY_IMAGE/sausage-backend:latest:/usr/src" sonarsource/sonar-scanner-cli
+      
 
 spotbugs-sast:
   variables:
