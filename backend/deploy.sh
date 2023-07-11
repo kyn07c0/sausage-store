@@ -8,8 +8,8 @@ SPRING_DATA_MONGODB_URI=${SPRING_DATA_MONGODB_URI}
 EOF
 docker network create -d bridge sausage_network || true
 docker pull gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
-docker stop backend || true
-docker rm backend || true
+docker stop sausage-backend || true
+docker rm sausage-backend || true
 set -e
 docker run -d --name sausage-backend \
     --network=sausage_network \
