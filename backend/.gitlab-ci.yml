@@ -50,7 +50,8 @@ build:
 sonarqube-sast:
   stage: test
   image: sonarsource/sonar-scanner-cli:latest
-  need: build
+  need: 
+    - build
   script:
     - docker run \
     -- rm \
