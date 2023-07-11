@@ -36,7 +36,7 @@ sonarqube-sast:
   needs:
     - build
   script:
-   - cd frontend
+    - cd frontend
     - sonar-scanner
       -Dsonar.projectKey=${SONAR_PROJECT_FRONTEND_KEY}
       -Dsonar.sources=.
