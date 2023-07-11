@@ -2,8 +2,8 @@
 set +xe
 docker network create -d bridge sausage_network || true
 docker pull gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
-docker stop frontend || true
-docker rm frontend || true
+docker stop sausage-frontend || true
+docker rm sausage-frontend || true
 set -e
 docker run -d --name sausage-frontend \
 	--network=sausage_network \
