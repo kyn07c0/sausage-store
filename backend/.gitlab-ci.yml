@@ -30,31 +30,22 @@ build:
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
 
-#sonarqube-sast:
-#  stage: test
-#  image: maven:3.8-openjdk-16
-#  needs:
-#    - build
-#  only:
-#    changes:
-#    - backend/**/*  
-#  script:
-#    - cd backend
-#    - mvn verify sonar:sonar
-#      -Dsonar.projectKey=${SONAR_PROJECT_BACKEND_KEY}
-#      -Dsonar.host.url=${SONARQUBE_URL}
-#      -Dsonar.login=${SONAR_LOGIN_BACKEND}
-#      -Dsonar.qualitygate.wait=true
-#      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
-
 sonarqube-sast:
   stage: test
-  #image: sonarsource/sonar-scanner-cli:latest
-  needs: 
+  image: maven:3.8-openjdk-16
+  needs:
     - build
+  only:
+    changes:
+    - backend/**/*  
   script:
-    - docker run --rm -e SONAR_HOST_URL=${SONARCUBE_URL} -e SONAR_LOGIN=${SONAR_LOGIN_BACKEND} -v "$CI_REGISTRY_IMAGE/sausage-backend:latest:/usr/src" sonarsource/sonar-scanner-cli
-      
+    - cd backend
+    - mvn verify sonar:sonar
+      -Dsonar.projectKey=${SONAR_PROJECT_BACKEND_KEY}
+      -Dsonar.host.url=${SONARQUBE_URL}
+      -Dsonar.login=${SONAR_LOGIN_BACKEND}
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
 spotbugs-sast:
   variables:
