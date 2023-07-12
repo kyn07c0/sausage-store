@@ -30,4 +30,4 @@ COPY --chown=jarservice:jarservice \
 EXPOSE 8090
 # приложение будет запускаться под пользователем jarservice
 USER jarservice
-ENTRYPOINT ["dumb-init", "java", "-jar", "-Dserver.port=8090", "./sausage-store.jar"]
+ENTRYPOINT ["dumb-init", "java", "-jar", "-Dmyserver.bindPort=8090", "./sausage-store.jar"]
