@@ -68,6 +68,16 @@ upload-frontend-latest:
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
 
+#telegram-notification:
+#  stage: notify
+#  only:
+#    changes:
+#    - frontend/**/*
+#  script:
+#    - 'curl -X POST -H "Content-type: application/json" --data "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия frontend сосисочной - ${VERSION}. Скачать frontend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz \"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
+#  needs:
+#    - release
+
 deploy:
   stage: deploy
   image: alpine:3.16.0
