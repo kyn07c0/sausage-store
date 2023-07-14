@@ -25,6 +25,14 @@
         <spring-cloud.version>2021.0.0</spring-cloud.version>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>sausage-store</id>
+            <name>sausage-store</name>
+            <url>${env.NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/</url>
+        </repository>
+    </distributionManagement>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -34,16 +42,18 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-vault-config</artifactId>
+            </dependency>
         </dependencies>
     </dependencyManagement> 
 
     <dependencies>
-
        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -114,10 +124,6 @@
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-vault-config</artifactId>
         </dependency> 
     </dependencies>
 
@@ -159,13 +165,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>sausage-store</id>
-            <name>sausage-store</name>
-            <url>${env.NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-backend/</url>
-        </repository>
-    </distributionManagement>
 
 </project>
