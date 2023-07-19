@@ -3,7 +3,7 @@ variables:
   #JAVA_OPTS: -XX:MaxRAMPercentage=90 # для того, чтобы Maven не съел всю свободную оперативку
 
 include:
-  - remote: 'https://gitlab.com/gitlab-org/gitlab/-/raw/2851f4d5/lib/gitlab/ci/templates/Jobs/SAST.latest.gitlab-ci.yml'
+  - template: Security/SAST.gitlab-ci.yml 
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'  
 
