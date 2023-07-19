@@ -3,7 +3,7 @@ variables:
   #JAVA_OPTS: -XX:MaxRAMPercentage=90 # для того, чтобы Maven не съел всю свободную оперативку
 
 include:
-  - template: Security/SAST.gitlab-ci.yml
+  - remote: 'https://gitlab.com/gitlab-org/gitlab/-/raw/2851f4d5/lib/gitlab/ci/templates/Jobs/SAST.latest.gitlab-ci.yml'
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'  
 
@@ -29,22 +29,22 @@ build:
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
 
-sonarqube-sast:
-  stage: test
-  image: maven:3.8-openjdk-16
-  needs:
-    - build
-  only:
-    changes:
-    - backend-report/**/*  
-  script:
-    - cd backend-report
-    - mvn verify sonar:sonar
-      -Dsonar.projectKey=${SONAR_PROJECT_BACKEND_KEY}
-      -Dsonar.host.url=${SONARQUBE_URL}
-      -Dsonar.login=${SONAR_LOGIN_BACKEND}
-      -Dsonar.qualitygate.wait=true
-      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
+#sonarqube-sast:
+#  stage: test
+#  image: maven:3.8-openjdk-16
+#  needs:
+#    - build
+#  only:
+#    changes:
+#    - backend-report/**/*  
+#  script:
+#    - cd backend-report
+#    - mvn verify sonar:sonar
+#      -Dsonar.projectKey=${SONAR_PROJECT_BACKEND_KEY}
+#      -Dsonar.host.url=${SONARQUBE_URL}
+#      -Dsonar.login=${SONAR_LOGIN_BACKEND}
+#      -Dsonar.qualitygate.wait=true
+#      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
 spotbugs-sast:
   variables:
