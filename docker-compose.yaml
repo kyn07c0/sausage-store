@@ -3,7 +3,7 @@ version: "3.3"
 services:
   backend:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/backend:${BACKEND_VERSION}
-    container_name: sausage-store-backend
+    container_name: backend
     environment:
       # Переменные из application.properties можно заменить переменными окружения
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
@@ -17,7 +17,7 @@ services:
       context: backend-report
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/backend-report:${BACKEND_REPORT_VERSION}
-    container_name: sausage-store-backend-report
+    container_name: backend-report
     environment:
       DB: ${REPORTS_MONGODB_URI}
     networks:
@@ -27,7 +27,7 @@ services:
       context: frontend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/frontend:${FRONTEND_VERSION}
-    container_name: sausage-store-frontend
+    container_name: frontend
     ports:
       - "80:80"
     networks:
