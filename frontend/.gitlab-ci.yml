@@ -58,7 +58,7 @@ upload-frontend-latest:
   needs:
     - build
     - spotbugs-sast
-    #- sonarqube-sast
+    - sonarqube-sast
   before_script:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -92,6 +92,7 @@ deploy:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - scp ../docker-compose.yaml ${DEV_USER}@${DEV_HOST} 
     - ssh ${DEV_USER}@${DEV_HOST} 
       "export "VERSION=${VERSION}";
-      /bin/bash -s " < ./frontend/deploy.sh                                      
+      /bin/bash -s " < ./frontend/deploy.sh           
