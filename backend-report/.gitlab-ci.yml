@@ -32,7 +32,7 @@ build:
 
 sonarqube-sast:
   stage: test
-  image: maven:3.8-openjdk-16
+  image: sonarsource/sonar-scanner-cli
   needs:
     - build
   only:
