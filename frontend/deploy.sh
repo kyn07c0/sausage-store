@@ -1,3 +1,2 @@
 #!/bin/bash
-set +xe
-docker-compose up --detach --build sausage-frontend || true
+docker-compose up --detach --build frontend || true
