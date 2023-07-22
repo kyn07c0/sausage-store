@@ -29,22 +29,22 @@ build:
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
 
-#sonarqube-sast:
-#  stage: test
-#  image: maven:3.8-openjdk-16
-#  needs:
-#    - build
-#  only:
-#    changes:
-#    - backend-report/**/*  
-#  script:
-#    - cd backend-report
-#    - mvn verify sonar:sonar
-#      -Dsonar.projectKey=${SONAR_PROJECT_BACKEND_KEY}
-#      -Dsonar.host.url=${SONARQUBE_URL}
-#      -Dsonar.login=${SONAR_LOGIN_BACKEND}
-#      -Dsonar.qualitygate.wait=true
-#      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
+sonarqube-sast:
+  stage: test
+  image: maven:3.8-openjdk-16
+  needs:
+    - build
+  only:
+    changes:
+    - backend-report/**/*  
+  script:
+    - cd backend-report
+    - mvn verify sonar:sonar
+      -Dsonar.projectKey=${SONAR_PROJECT_BACKEND_KEY}
+      -Dsonar.host.url=${SONARQUBE_URL}
+      -Dsonar.login=${SONAR_LOGIN_BACKEND}
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.projectName=17_ЮРИЙКРЫВИНЯ_БЭКЭНД     
 
 spotbugs-sast:
   variables:
@@ -60,7 +60,7 @@ upload-backend-report-latest:
   needs:
     - build
     - spotbugs-sast
-    #- sonarqube-sast
+    - sonarqube-sast
   before_script:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -87,8 +87,5 @@ deploy:
     - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
-       export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
-       export "SPRING_DATASOURCE_USERNAME=$(vault kv get -field=spring.datasource.username secret/sausage-store)";
-       export "SPRING_DATASOURCE_PASSWORD=$(vault kv get -field=spring.datasource.password secret/sausage-store)";
        export "SPRING_DATA_MONGODB_URI=$(vault kv get -field=spring.data.mongodb.uri secret/sausage-store)";
       /bin/bash -s " < ./backend-report/deploy.sh
