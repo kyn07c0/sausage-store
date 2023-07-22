@@ -93,6 +93,6 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - scp docker-compose.yaml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store
-    - ssh ${DEV_USER}@${DEV_HOST} -t "cd /home/${DEV_USER}/sausage-store; bash --login" 
-      "export "VERSION=${VERSION}";
+    - ssh ${DEV_USER}@${DEV_HOST} -t "cd /home/${DEV_USER}/sausage-store; bash --login; 
+      export "VERSION=${VERSION}";
       /bin/bash -s " < ./frontend/deploy.sh           
