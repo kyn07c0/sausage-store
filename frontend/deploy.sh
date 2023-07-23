@@ -1,5 +1,5 @@
 #!/bin/bash
-set +e
+set +xe
 docker-compose stop frontend || true
 docker-compose rm -f frontend || true
 docker-compose pull frontend || true
