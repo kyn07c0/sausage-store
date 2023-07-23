@@ -66,7 +66,7 @@ upload-frontend-latest:
     - docker pull $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
     # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
-    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:${VERSION}
 
 deploy:
   stage: deploy
@@ -84,5 +84,5 @@ deploy:
   script:
     - scp docker-compose.yaml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}
     - ssh ${DEV_USER}@${DEV_HOST}
-      "export "FRONTEND_VERSION=${FRONTEND_VERSION}";
+      "export "FRONTEND_VERSION=${VERSION}";
       /bin/bash -s " < ./frontend/deploy.sh           
