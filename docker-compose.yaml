@@ -13,9 +13,6 @@ services:
     networks:
       - sausage-store
   backend-report:
-    build:
-      context: backend-report
-      dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
     environment:
