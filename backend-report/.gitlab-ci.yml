@@ -91,5 +91,5 @@ deploy:
     - echo "SPRING_DATA_MONGODB_URI=${MONGO_DATA}"
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
-       export "SPRING_DATA_MONGODB_URI='${MONGO_DATA}'";
+       export "SPRING_DATA_MONGODB_URI=${VERSION}";
       /bin/bash -s " < ./backend-report/deploy.sh
