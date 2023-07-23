@@ -16,7 +16,7 @@ services:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
     environment:
-      DB: ${REPORT_MONGODB_URI}
+      DB: ${DB}
     networks:
       - sausage-store
   frontend:
