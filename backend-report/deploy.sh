@@ -1,6 +1,7 @@
 #!/bin/bash
 set +e
 cat > .env_backend_report <<EOF
+VERSION=${VERSION}
 SPRING_DATA_MONGODB_URI=${SPRING_DATA_MONGODB_URI}
 EOF
 docker-compose stop backend-report || true
