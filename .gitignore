@@ -177,4 +177,4 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 .flattened-pom.xml
 
-# End of https://www.toptal.com/developers/gitignore/api/maven,angular,java,intellij
+.env
