@@ -88,6 +88,7 @@ deploy:
   script:
     - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
     - scp docker-compose.yaml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}  
+    - echo "Mongo = '${MONGO_DATA}'"
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
        export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
