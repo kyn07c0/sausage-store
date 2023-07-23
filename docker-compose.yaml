@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   backend:
-    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
+    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:${BACKEND_VERSION}
     container_name: sausage-backend
     environment:
       # Переменные из application.properties можно заменить переменными окружения
@@ -13,14 +13,14 @@ services:
     networks:
       - sausage-store
   backend-report:
-    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
+    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:${BACKEND_REPORT_VERSION}
     container_name: sausage-backend-report
     environment:
       DB: ${REPORT_MONGODB_URI}
     networks:
       - sausage-store
   frontend:
-    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
+    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:${FRONTEND_VERSION}
     container_name: sausage-frontend
     ports:
       - "80:80"
