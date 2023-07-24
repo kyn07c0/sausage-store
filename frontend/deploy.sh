@@ -6,5 +6,5 @@ EOF
 #docker-compose stop frontend || true
 #docker-compose rm -f frontend || true
 docker-compose pull frontend || true
-docker-compose up --force-recreate -d front || true
+docker-compose up -d --force-recreate frontend || true
 #docker-compose up -d frontend || true
