@@ -89,5 +89,5 @@ deploy:
     - scp docker-compose.yaml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "BACKEND_REPORT_VERSION=${VERSION}";
-       export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
+       export "SPRING_DATA_MONGODB_URI='${MONGO_DATA}'";
       /bin/bash -s " < ./backend-report/deploy.sh
