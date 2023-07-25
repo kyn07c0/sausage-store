@@ -58,7 +58,7 @@ upload-frontend-latest:
   needs:
     - build
     - spotbugs-sast
-    #- sonarqube-sast
+    - sonarqube-sast
   before_script:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -67,16 +67,6 @@ upload-frontend-latest:
     # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
-
-#telegram-notification:
-#  stage: notify
-#  only:
-#    changes:
-#    - frontend/**/*
-#  script:
-#    - 'curl -X POST -H "Content-type: application/json" --data "{\"chat_id\": \"-1001763459775\", \"text\": \"Вышла новая версия frontend сосисочной - ${VERSION}. Скачать frontend можно по ссылке — ${NEXUS_REPO_URL}/sausage-store-kryvinya-yuriy-frontend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz \"}" https://api.telegram.org/bot5933756043:AAE8JLL5KIzgrNBeTP5e-1bkbJy4YRoeGjs/sendMessage'
-#  needs:
-#    - release
 
 deploy:
   stage: deploy
@@ -92,6 +82,7 @@ deploy:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh ${DEV_USER}@${DEV_HOST} 
-      "export "VERSION=${VERSION}";
-      /bin/bash -s " < ./frontend/deploy.sh                                      
+    - scp docker-compose.yaml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}
+    - ssh ${DEV_USER}@${DEV_HOST}
+      "export "FRONTEND_VERSION=${VERSION}";
+      /bin/bash -s " < ./frontend/deploy.sh           
