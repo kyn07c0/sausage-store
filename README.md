@@ -34,3 +34,9 @@ sudo http-server ./dist/frontend/ -p 80 --proxy http://localhost:8080
 ```
 
 Then open your browser and go to [http://localhost](http://localhost)
+
+### Пример добавления секретных данных в vault
+
+```bash
+vault kv put secret/sausage-store spring.datasource.username=std-017-006 spring.datasource.password=Testusr1234 spring.data.mongodb.uri=mongodb://std-017-006:Testusr1234@rc1a-u0nwp06gbwh8qsoq.mdb.yandexcloud.net:27018/std-017-006?tls=true\\\&tlsAllowInvalidCertificates=true
+```
