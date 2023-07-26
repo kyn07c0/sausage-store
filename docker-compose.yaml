@@ -11,7 +11,7 @@ services:
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       VIRTUAL_HOST: test2  
     networks:
-      - sausage-store    
+      - sausage-store
   backend-report:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
