@@ -17,5 +17,6 @@ RUN npm run build
 #ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://sausage-backend:8090"]
 
 FROM nginxproxy/nginx-proxy
+WORKDIR /app
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
 COPY nginx.tmpl /app/nginx.tmpl
