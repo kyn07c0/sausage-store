@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  backend:
+  blue: &backend
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
     restart: always
     container_name: blue
@@ -19,24 +19,9 @@ services:
       timeout: 10s
       start_period: 20s
       retries: 6    
-  backend:
-    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
-    restart: always
+  green:
+    <<: *backend
     container_name: green
-    environment:
-      # Переменные из application.properties можно заменить переменными окружения
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"  
-    networks:
-      - sausage-store
-    healthcheck:
-      test: curl --fail -s http://localhost:8080/actuator/health
-      interval: 30s
-      timeout: 10s
-      start_period: 20s
-      retries: 6    
   backend-report:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     restart: always
