@@ -22,12 +22,12 @@ else
   INACTIVE_SERVICE=$BLUE_SERVICE
 fi
 
-echo $ACTIVE_SERVICE
-echo $INACTIVE_SERVICE
+echo "Active service: $ACTIVE_SERVICE"
+echo "Inactive service: $INACTIVE_SERVICE"
 
 # Start the new environment
-echo "Starting $INACTIVE_SERVICE container"
-docker-compose pull backend || true
+echo "Starting inactive $INACTIVE_SERVICE container"
+docker-compose pull $INACTIVE_SERVICE || true
 docker compose --env-file .env_backend up -d --force-recreate $INACTIVE_SERVICE || true
 
 #docker-compose pull backend || true
