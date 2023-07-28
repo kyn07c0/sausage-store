@@ -25,6 +25,10 @@ fi
 echo $ACTIVE_SERVICE
 echo $INACTIVE_SERVICE
 
-
+# Start the new environment
+echo "Starting $INACTIVE_SERVICE container"
 docker-compose pull backend || true
-docker-compose --env-file .env_backend up -d --force-recreate green || true
+docker compose --env-file .env_backend up -d --force-recreate $INACTIVE_SERVICE || true
+
+#docker-compose pull backend || true
+#docker-compose --env-file .env_backend up -d --force-recreate green || true
