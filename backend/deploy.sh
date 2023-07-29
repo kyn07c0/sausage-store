@@ -1,13 +1,13 @@
 #!/bin/bash
 set +e
-cat > .env_backend <<EOF
-BACKEND_VERSION=${BACKEND_VERSION}
-SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
-SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
-SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
-EOF
+#cat > .env_backend <<EOF
+#BACKEND_VERSION=${BACKEND_VERSION}
+#SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+#SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+#SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+#EOF
 
-set -e
+set +xe
 
 BLUE_SERVICE="blue"
 GREEN_SERVICE="green"
@@ -44,7 +44,7 @@ for((i=1; i<=10; i++)); do
     continue
   fi
 
-  HEALTH_CHECK_URL="http://$CONTAINER_IP:8080/actuator/health"
+  HEALTH_CHECK_URL="http://$CONTAINER_IP:8081/actuator/health"
   echo "HEALTH_CHECK_URL: $HEALTH_CHECK_URL"
   if docker run --net sausage-store_sausage-store --rm curlimages/curl:8.00.1 --fail --silent "$HEALTH_CHECK_URL" >/dev/null; then
     echo "$INACTIVE_SERVICE is healthy"
@@ -55,6 +55,7 @@ for((i=1; i<=10; i++)); do
 done
 
 # If the new environment is not healthy within the timeout, stop it and exit with an error
+echo "Check new container is run."
 if ! docker run --net sausage-store_sausage-store --rm curlimages/curl:8.00.1 --fail --silent "$HEALTH_CHECK_URL" >/dev/null; then
   echo "$INACTIVE_SERVICE did not become healthy within 60 seconds"
   docker-compose down $INACTIVE_SERVICE
@@ -64,7 +65,7 @@ fi
 # Check that Traefik recognizes the new container
 echo "Checking if Traefik recognizes $INACTIVE_SERVICE..."
 for ((i=1; i<=10; i++)); do
-  TRAEFIK_SERVER_STATUS=$(curl --fail --silent "$TRAEFIK_API_URL" | jq --arg container_ip "http://$CONTAINER_IP:8080" '.[] | select(.type == "loadbalancer") | select(.serverStatus[$container_ip] == "UP") | .serverStatus[$container_ip]')
+  TRAEFIK_SERVER_STATUS=$(curl --fail --silent "$TRAEFIK_API_URL" | jq --arg container_ip "http://$CONTAINER_IP:8081" '.[] | select(.type == "loadbalancer") | select(.serverStatus[$container_ip] == "UP") | .serverStatus[$container_ip]')
   if [[ -n "$TRAEFIK_SERVER_STATUS" ]]; then
     echo "Traefik recognizes $INACTIVE_SERVICE as healthy"
     break
