@@ -1,8 +1,8 @@
 version: "3.4"
 
 services:
-  backend: &b
-    blue:
+  blue: &b
+    build:
       context: backend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
