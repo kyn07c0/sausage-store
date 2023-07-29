@@ -6,6 +6,7 @@ services:
       context: backend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
+    container_name: blue
     environment:
       # Переменные из application.properties можно заменить переменными окружения
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
@@ -25,6 +26,7 @@ services:
       retries: 6    
   green:
     <<: *b
+    container_name: green
   backend-report:
     build:
       context: backend-report
