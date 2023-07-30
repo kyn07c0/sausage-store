@@ -1,7 +1,7 @@
 version: "3.4"
 
 services:
-  backend: &b
+  blue: &b
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
     container_name: blue
     environment:
@@ -21,7 +21,7 @@ services:
       timeout: 10s
       start_period: 20s
       retries: 6    
-  backend:
+  green:
     <<: *b
     container_name: green
   backend-report:
