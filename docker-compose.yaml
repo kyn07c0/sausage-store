@@ -13,19 +13,19 @@ services:
       VIRTUAL_HOST: test2
     networks:
       - sausage-store
-    ports:
-      - "8081:8081"
+    expose:
+      - "8081"
     healthcheck:
       test: curl --fail -s http://localhost:8081/actuator/health
       interval: 30s
       timeout: 10s
       start_period: 20s
       retries: 6    
-  green:
-    <<: *b
-    container_name: green
-    ports:
-      - "8082:8082"
+  #green:
+    #<<: *b
+    #container_name: green
+    #ports:
+    #  - "8082:8082"
   backend-report:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
