@@ -16,7 +16,7 @@ services:
     expose:
       - "8090"
     healthcheck:
-      test: curl --fail -s http://localhost:8090/actuator/health
+      test: "curl -f http://localhost || false"
       interval: 20s
       timeout: 5s
       start_period: 40s
