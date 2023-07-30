@@ -14,46 +14,52 @@ GREEN_SERVICE="green"
 
 # Find which service is currently active
 if docker ps --format "{{.Names}}" | grep -q "$BLUE_SERVICE"; then
-  ACTIVE_SERVICE=$BLUE_SERVICE
-  INACTIVE_SERVICE=$GREEN_SERVICE
-elif docker ps --format "{{.Names}}" | grep -q "$GREEN_SERVICE"; then
   ACTIVE_SERVICE=$GREEN_SERVICE
   INACTIVE_SERVICE=$BLUE_SERVICE
-else
-  ACTIVE_SERVICE=""
-  INACTIVE_SERVICE=$BLUE_SERVICE
-fi
+else docker ps --format "{{.Names}}" | grep -q "$GREEN_SERVICE"; then
+  ACTIVE_SERVICE=$BLUE_SERVICE
+  INACTIVE_SERVICE=$GREEN_SERVICE
 
 echo "Active service: $ACTIVE_SERVICE"
 echo "Inactive service: $INACTIVE_SERVICE"
 echo "-----------------------------------"
 
-# Stop and remove second active container
-docker-compose rm -f $INACTIVE_SERVICE || true 
+echo "Removing old container: $INACTIVE_SERVICE"
+docker-compose rm -f $INACTIVE_SERVICE
 
 # Start inactive service
-echo "Starting inactive $INACTIVE_SERVICE container"
+echo "Start new container: $INACTIVE_SERVICE"
 docker-compose pull $INACTIVE_SERVICE || true
-docker-compose --env-file .env_backend up -d --force-recreate $INACTIVE_SERVICE || true
-echo "-----------------------------------"
+docker-compose --env-file .env_backend up -d $INACTIVE_SERVICE
+rv=$?
+if [ $rv -eq 0 ]; then
+    echo "New \"$NEW_BACKEND\" container started"
+else
+    echo "Docker compose failed with exit code: $rv"
+    echo "Aborting..."
+    exit 1
+fi
 
-echo "Wait startup service $INACTIVE_SERVICE"
-for((i=1; i<=10; i++)); do
-  CONTAINER_IP=$(docker inspect --format='{{range $key, $value := .NetworkSettings.Networks}}{{if eq $key "'"sausage-store_sausage-store"'"}}{{$value.IPAddress}}{{end}}{{end}}' "$INACTIVE_SERVICE" || true)
-  if [[ -z "$CONTAINER_IP" ]]; then
-    sleep 5
-    continue
-  fi
+echo "Sleeping 5 seconds"
+sleep 5
 
-  HEALTH_CHECK_URL="http://$CONTAINER_IP:8081/actuator/health"
-  echo "HEALTH_CHECK_URL: $HEALTH_CHECK_URL"
-  if docker run --net sausage-store_sausage-store --rm curlimages/curl:8.00.1 --fail --silent "$HEALTH_CHECK_URL" >/dev/null; then
-    echo "$INACTIVE_SERVICE is healthy"
-    break
-  fi
+#echo "Wait startup service $INACTIVE_SERVICE"
+#for((i=1; i<=10; i++)); do
+#  CONTAINER_IP=$(docker inspect --format='{{range $key, $value := .NetworkSettings.Networks}}{{if eq $key "'"sausage-store_sausage-store"'"}}{{$value.IPAddress}}{{end}}{{end}}' "$INACTIVE_SERVICE" || true)
+#  if [[ -z "$CONTAINER_IP" ]]; then
+#    sleep 5
+#    continue
+#  fi
 
-  sleep 5
-done
+#  HEALTH_CHECK_URL="http://$CONTAINER_IP:8081/actuator/health"
+#  echo "HEALTH_CHECK_URL: $HEALTH_CHECK_URL"
+#  if docker run --net sausage-store_sausage-store --rm curlimages/curl:8.00.1 --fail --silent "$HEALTH_CHECK_URL" >/dev/null; then
+#    echo "$INACTIVE_SERVICE is healthy"
+#    break
+#  fi
+
+#  sleep 5
+#done
 
 # If the new environment is not healthy within the timeout, stop it and exit with an error
 #echo "Check new container is run."
