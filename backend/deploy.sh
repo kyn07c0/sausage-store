@@ -16,7 +16,7 @@ GREEN_SERVICE="green"
 if docker ps --format "{{.Names}}" | grep -q "$BLUE_SERVICE"; then
   ACTIVE_SERVICE=$GREEN_SERVICE
   INACTIVE_SERVICE=$BLUE_SERVICE
-else docker ps --format "{{.Names}}" | grep -q "$GREEN_SERVICE"; then
+else 
   ACTIVE_SERVICE=$BLUE_SERVICE
   INACTIVE_SERVICE=$GREEN_SERVICE
 
