@@ -39,6 +39,3 @@ else
     echo "Aborting..."
     exit 1
 fi
-
-echo "Sleeping 5 seconds"
-sleep 5
