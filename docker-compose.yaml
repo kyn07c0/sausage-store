@@ -14,7 +14,7 @@ services:
     networks:
       - sausage-store
     healthcheck:
-      test: "curl --fail --request GET http://localhost:8080/actuator/health"
+      test: "http://localhost:8080/actuator/health"
       interval: 20s
       timeout: 5s
       start_period: 40s
