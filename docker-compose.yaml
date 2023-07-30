@@ -3,7 +3,7 @@ version: "3.4"
 services:
   backend:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
-    #container_name: blue
+    container_name: backend
     environment:
       # Переменные из application.properties можно заменить переменными окружения
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
@@ -14,9 +14,9 @@ services:
     networks:
       - sausage-store
     expose:
-      - "8081"
+      - "8080"
     healthcheck:
-      test: curl --fail -s http://localhost:8081/actuator/health || exit 1
+      test: curl --fail -s http://localhost:8080/actuator/health || exit 1
       interval: 20s
       timeout: 5s
       start_period: 20s
