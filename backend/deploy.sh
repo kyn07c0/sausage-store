@@ -6,5 +6,5 @@ SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
 SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
 SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
 EOF
-docker-compose pull blue || true
-docker-compose --env-file .env_backend up -d --force-recreate blue || true
+docker-compose pull green || true
+docker-compose --env-file .env_backend up -d --force-recreate green || true
