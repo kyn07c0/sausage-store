@@ -33,7 +33,7 @@ docker-compose pull $INACTIVE_SERVICE || true
 docker-compose --env-file .env_backend up -d $INACTIVE_SERVICE
 rv=$?
 if [ $rv -eq 0 ]; then
-    echo "New \"$NEW_BACKEND\" container started"
+    echo "New container \"$NEW_BACKEND\" started"
 else
     echo "Docker compose failed with exit code: $rv"
     echo "Aborting..."
