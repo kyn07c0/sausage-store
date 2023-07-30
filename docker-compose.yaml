@@ -2,9 +2,6 @@ version: "3.4"
 
 services:
   backend: &b
-    build:
-      context: backend
-      dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
     container_name: blue
     environment:
@@ -16,21 +13,18 @@ services:
       VIRTUAL_HOST: test2
     networks:
       - sausage-store
-    #expose:
-    #  - "8081"
-    #healthcheck:
-    # test: curl --fail -s http://localhost:8081/actuator/health
-    #  interval: 30s
-    #  timeout: 10s
-    #  start_period: 20s
-    #  retries: 6    
+    expose:
+      - "8081"
+    healthcheck:
+     test: curl --fail -s http://localhost:8081/actuator/health
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 6    
   backend:
     <<: *b
     container_name: green
   backend-report:
-    build:
-      context: backend-report
-      dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
     environment:
@@ -38,9 +32,6 @@ services:
     networks:
       - sausage-store
   frontend:
-    build:
-      context: frontend
-      dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
     container_name: sausage-frontend
     ports:
