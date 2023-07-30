@@ -13,10 +13,8 @@ services:
       VIRTUAL_HOST: test2
     networks:
       - sausage-store
-    expose:
-      - "8090"
     healthcheck:
-      test: "curl -f http://localhost || false"
+            test: "curl --fail --request GET http://localhost:8090/actuator/health"
       interval: 20s
       timeout: 5s
       start_period: 40s
