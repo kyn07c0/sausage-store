@@ -13,8 +13,8 @@ services:
       VIRTUAL_HOST: test2
     networks:
       - sausage-store
-    ports:
-      - "8081:8081"
+    expose:
+      - "8090"
     healthcheck:
       test: curl --fail -s http://localhost:8090/actuator/health
       interval: 20s
