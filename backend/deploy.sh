@@ -28,14 +28,14 @@ echo "Removing old container: $INACTIVE_SERVICE"
 docker-compose rm -f $INACTIVE_SERVICE
 
 # Start inactive service
-echo "Start new container: $INACTIVE_SERVICE"
-docker-compose pull $INACTIVE_SERVICE || true
-docker-compose --env-file .env_backend up -d $INACTIVE_SERVICE
-rv=$?
-if [ $rv -eq 0 ]; then
-    echo "New container \"$NEW_BACKEND\" started"
-else
-    echo "Docker compose failed with exit code: $rv"
-    echo "Aborting..."
-    exit 1
-fi
+#echo "Start new container: $INACTIVE_SERVICE"
+#docker-compose pull $INACTIVE_SERVICE || true
+#docker-compose --env-file .env_backend up -d $INACTIVE_SERVICE
+#rv=$?
+#if [ $rv -eq 0 ]; then
+#    echo "New container \"$NEW_BACKEND\" started"
+#else
+#    echo "Docker compose failed with exit code: $rv"
+#    echo "Aborting..."
+#    exit 1
+#fi
