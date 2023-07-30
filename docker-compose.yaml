@@ -14,9 +14,9 @@ services:
     networks:
       - sausage-store
     ports:
-      - "8082:8080"      
+      - "8092:8090"
     healthcheck:
-      test: "curl -X GET http://localhost:8080/actuator/health"
+      test: "curl -X GET http://localhost:8090/actuator/health"
       interval: 30s
       timeout: 10s
       start_period: 30s
