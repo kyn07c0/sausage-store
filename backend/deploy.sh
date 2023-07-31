@@ -41,7 +41,7 @@ do
     break 
   fi
 
-  sleep "10"
+  sleep "20"
 done
 
 # Stop old service if new service is health
