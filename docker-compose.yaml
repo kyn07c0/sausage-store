@@ -4,6 +4,7 @@ services:
   backend:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
     container_name: sausage-backend
+    restart: always
     environment:
       # Переменные из application.properties можно заменить переменными окружения
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
@@ -29,6 +30,7 @@ services:
   backend-report:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
+    restart: always
     environment:
       DB: ${DB}
     networks:
@@ -36,6 +38,7 @@ services:
   frontend:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
     container_name: sausage-frontend
+    restart: always
     ports:
       - "80:80"
     volumes:
