@@ -3,9 +3,6 @@ version: "3.4"
 services:
   blue: &backend
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
-    build:
-      context: backend
-      dockerfile: Dockerfile
     container_name: blue
     restart: always
     environment:
@@ -14,6 +11,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
+      VIRTUAL_HOST: test2
     networks:
       - sausage-store
     healthcheck:
@@ -22,34 +20,27 @@ services:
       timeout: 10s
       start_period: 20s
       retries: 6
-
   green:
     <<: *backend
     container_name: green
-
   backend-report:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
-    build:
-      context: backend-report
-      dockerfile: Dockerfile
     container_name: sausage-backend-report
     restart: always
     environment:
       DB: ${DB}
     networks:
       - sausage-store
-
   frontend:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
-    build:
-      context: frontend
-      dockerfile: Dockerfile
     container_name: sausage-frontend
     restart: always
     ports:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    environment:
+      DEFAULT_HOST: test2
     networks:
       - sausage-store
 
