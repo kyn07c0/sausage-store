@@ -13,14 +13,14 @@ services:
       VIRTUAL_HOST: test2
     networks:
       - sausage-store
-    ports:
-      - "8081:8080"
-    healthcheck:
-      test: "curl http://localhost:8080/actuator/health"
-      interval: 30s
-      timeout: 10s
-      start_period: 40s
-      retries: 5
+    #ports:
+    #  - "8081:8080"
+    #healthcheck:
+    #  test: "curl http://localhost:8080/actuator/health"
+    #  interval: 30s
+    #  timeout: 10s
+    #  start_period: 40s
+    #  retries: 5
   #green:
     #<<: *b
     #container_name: green
