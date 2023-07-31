@@ -11,7 +11,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
-      VIRTUAL_HOST: test2
     networks:
       - sausage-store
     healthcheck:
@@ -39,8 +38,6 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    environment:
-      DEFAULT_HOST: test2
     networks:
       - sausage-store
 

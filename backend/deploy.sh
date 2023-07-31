@@ -9,19 +9,19 @@ EOF
 set +xe
 
 # Find active service
-docker container ls --filter health=healthy | grep -q blue
+docker container ls --filter health=healthy | grep -q green
 result=$?
 if [ $result -eq 0 ]; then
-  ACTIVE_SERVICE="blue"
-  NEW_SERVICE="green"
-else
   ACTIVE_SERVICE="green"
   NEW_SERVICE="blue"
+else
+  ACTIVE_SERVICE="blue"
+  NEW_SERVICE="green"
 fi
 echo "Active service: $ACTIVE_SERVICE"
 
 # Start new service
-docker-compose pull backend || true
+docker-compose pull $NEW_SERVICE || true 
 docker-compose --env-file .env_backend up -d --force-recreate $NEW_SERVICE || true
 echo "New service $NEW_SERVICE is run"
 
