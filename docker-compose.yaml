@@ -1,9 +1,9 @@
 version: "3.4"
 
 services:
-  blue:
+  backend:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
-    container_name: blue
+    container_name: sausage-backend
     environment:
       # Переменные из application.properties можно заменить переменными окружения
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
