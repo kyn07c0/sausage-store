@@ -21,7 +21,7 @@ fi
 echo "Active service: $ACTIVE_SERVICE"
 
 # Start new service
-docker-compose pull $NEW_SERVICE || true
+docker-compose pull backend || true
 docker-compose --env-file .env_backend up -d --force-recreate $NEW_SERVICE || true
 echo "New service $NEW_SERVICE is run"
 
