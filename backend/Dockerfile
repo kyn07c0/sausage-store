@@ -25,6 +25,7 @@ RUN keytool -importcert -file YandexInternalRootCA.crt \
     && addgroup --system jarservice \
     && adduser -S -s /bin/false -G jarservice -G jarservice jarservice -D -H \
     && apk add --no-cache dumb-init==1.2.5-r0
+RUN apt install -y curl
 COPY --chown=jarservice:jarservice \
      --from=builder /usr/src/app/target/sausage-store-${VERSION}.jar ./sausage-store.jar
 EXPOSE 8090
