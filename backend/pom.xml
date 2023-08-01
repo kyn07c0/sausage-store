@@ -45,7 +45,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-vault-config</artifactId>
-	    </dependency>
+            </dependency>
         </dependencies>
     </dependencyManagement> 
 
