@@ -14,7 +14,7 @@ services:
     networks:
       - sausage-store
     healthcheck:
-      test: curl http://localhost:8090/
+      test: curl http://localhost:8080/actuator/health
       interval: 30s
       timeout: 10s
       start_period: 20s
