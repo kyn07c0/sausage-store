@@ -34,7 +34,7 @@ services:
       - sausage-store
   frontend:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
-    container_name: sausage-frontend
+    #container_name: sausage-frontend
     restart: always
     ports:
       - "80:80"
