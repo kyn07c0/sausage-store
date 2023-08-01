@@ -40,7 +40,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
-      DEFAULT_HOST: test2      
+      DEFAULT_HOST: test2 
     networks:
       - sausage-store
 
