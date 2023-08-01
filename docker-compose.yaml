@@ -3,7 +3,7 @@ version: "3.4"
 services:
   blue: &backend
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
-    container_name: blue
+    #container_name: blue
     restart: always
     environment:
       # Переменные из application.properties можно заменить переменными окружения
@@ -11,6 +11,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
+      expose:
+        - "8080"
     networks:
       - sausage-store
     healthcheck:
@@ -21,7 +23,7 @@ services:
       retries: 5
   green:
     <<: *backend
-    container_name: green
+    #container_name: green
   backend-report:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
