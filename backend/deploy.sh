@@ -21,8 +21,8 @@ fi
 echo "Active service: $ACTIVE_SERVICE"
 
 # Stop the second service if it is running 
-docker-compose stop $NEW_SERVICE
-docker-compose rm $NEW_SERVICE
+docker-compose stop $NEW_SERVICE \y
+docker-compose rm $NEW_SERVICE \y
 
 # Start new service
 docker-compose pull $NEW_SERVICE || true 
