@@ -1,20 +1,32 @@
-version: "3.3"
+version: "3.4"
 
 services:
-  backend:
-    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest 
+  blue: &backend
+    image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend:latest
+    container_name: blue
+    restart: always
     environment:
       # Переменные из application.properties можно заменить переменными окружения
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
-      VIRTUAL_HOST: test2  
+      VIRTUAL_HOST: test2
     networks:
       - sausage-store
+    healthcheck:
+      test: curl http://localhost:8090/
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 6
+  green:
+    <<: *backend
+    container_name: green
   backend-report:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
+    restart: always
     environment:
       DB: ${DB}
     networks:
@@ -22,12 +34,13 @@ services:
   frontend:
     image: gitlab.praktikum-services.ru:5050/std-017-006/sausage-store/sausage-frontend:latest
     container_name: sausage-frontend
+    restart: always
     ports:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
-      DEFAULT_HOST: test2    
+      DEFAULT_HOST: test2 
     networks:
       - sausage-store
 
