@@ -41,8 +41,8 @@ do
 
   if [[ $i -eq 5 ]]; then
     echo "New service $NEW_SERVICE did not become healthy"
-    docker-compose stop $NEW_SERVICE
-    docker-compose rm $NEW_SERVICE
+    docker-compose stop $NEW_SERVICE \y
+    docker-compose rm $NEW_SERVICE \y
     break 
   fi
 
@@ -53,7 +53,7 @@ done
 docker container ls --filter health=healthy | grep -q $NEW_SERVICE
 result=$?
 if [[ $result -eq 0 ]]; then
-  docker-compose stop $ACTIVE_SERVICE
-  docker-compose rm $ACTIVE_SERVICE
+  docker-compose stop $ACTIVE_SERVICE \y
+  docker-compose rm $ACTIVE_SERVICE \y
   echo "Old service $ACTIVE_SERVICE is stopped"
 fi
