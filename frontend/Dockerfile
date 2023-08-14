@@ -7,7 +7,8 @@ COPY . .
 RUN npm run build
 
 # release
-FROM nginxproxy/nginx-proxy
+FROM nginxproxy/nginx-proxy:1.3
 WORKDIR /app
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
-COPY nginx.tmpl /app/nginx.tmpl
+COPY nginx.tmpl /app/
+EXPOSE 80
