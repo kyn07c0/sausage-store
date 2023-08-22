@@ -28,7 +28,7 @@ RUN keytool -importcert -file YandexInternalRootCA.crt \
 RUN apk add curl
 COPY --chown=jarservice:jarservice \
      --from=builder /usr/src/app/target/sausage-store-${VERSION}.jar ./sausage-store.jar
-RUN chown jaruser:jaruser /app     
+RUN chown jarservice:jarservice /app     
 EXPOSE 8090
 # приложение будет запускаться под пользователем jarservice
 USER jarservice
